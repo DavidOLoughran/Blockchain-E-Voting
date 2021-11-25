@@ -1,0 +1,110 @@
+{
+  "contractName": "Election",
+  "abi": [],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a72305820f263066c59bdb01b79e882a399bce10d9a2c367f67c5ce994e64a8c7c8ef935e0029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820f263066c59bdb01b79e882a399bce10d9a2c367f67c5ce994e64a8c7c8ef935e0029",
+  "sourceMap": "27:28:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:28:1;;;;;;;",
+  "deployedSourceMap": "27:28:1:-;;;;;",
+  "source": "pragma solidity ^0.5.0;\r\n\r\ncontract Election {\r\n    \r\n}\r\n\r\n",
+  "sourcePath": "C:/Users/David/Desktop/PROJECT/contracts/election.sol",
+  "ast": {
+    "absolutePath": "/C/Users/David/Desktop/PROJECT/contracts/election.sol",
+    "exportedSymbols": {
+      "Election": [
+        35
+      ]
+    },
+    "id": 36,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 34,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 35,
+        "linearizedBaseContracts": [
+          35
+        ],
+        "name": "Election",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 36,
+        "src": "27:28:1"
+      }
+    ],
+    "src": "0:59:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/C/Users/David/Desktop/PROJECT/contracts/election.sol",
+    "exportedSymbols": {
+      "Election": [
+        35
+      ]
+    },
+    "id": 36,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 34,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 35,
+        "linearizedBaseContracts": [
+          35
+        ],
+        "name": "Election",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 36,
+        "src": "27:28:1"
+      }
+    ],
+    "src": "0:59:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x685e5DAd0B2b0513c1FEC45451Fc69a5d3926bd1",
+      "transactionHash": "0x63531eb5c09379a87dca1295ec7549e8e1548f027171032c7b0be95ce6a9a94a"
+    }
+  },
+  "schemaVersion": "3.0.1",
+  "updatedAt": "2021-11-25T10:50:51.854Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
