@@ -6,7 +6,7 @@ contract Election {
     
     uint256 public cand1Count = 0;
     uint256 public cand2Count = 0;
-    uint256 public voteCount = 0;
+    uint256 public voteID = 0;
 
 
 
@@ -19,7 +19,16 @@ contract Election {
         
     }
 
+    struct Candidate {
+        uint candidateID; 
+        uint voteCount;
+        string name;
+         
+        
+    }
+
     mapping(uint => Vote) public votes;
+    mapping(uint => Candidate) public candidates;
 
     constructor() public {
         createVote("Candidate 1");
@@ -28,10 +37,13 @@ contract Election {
         createVote("Candidate 2");
     }
 
-    function createVote(string memory _candidate) public{
+    function createVote(string memory _candidateID) public{
+        if(_candidateID ==  ){
 
-        voteCount ++;
-        votes[voteCount] = Vote(voteCount, true , _candidate);
+        }
+
+        voteID ++;
+        votes[voteID] = Vote(voteID, true , _candidateID);
     }
     
     // function addVote (uint userID, uint voteID, bool hasVoted, uint candidate) public{
