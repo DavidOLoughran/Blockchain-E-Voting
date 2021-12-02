@@ -52,6 +52,11 @@
             </li>
         </ul>
     </nav>
+
+    <form onSubmit="App.createTask(); return false;">
+        Candidate 1
+        <input type="submit" value="VOTE">
+    </form>
     <div class="container-fluid">
         <div class="row">
             <main role="main" class="col-lg-12 d-flex justify-content-center">
@@ -59,8 +64,23 @@
                     <p class="text-center">Loading...</p>
                 </div>
                 <div id="content">
+                    <form onSubmit="App.createVote(); return false;">
+                        Candidate 1
+                        <input type="hidden" id="candID" name="candID" value=1>
+                        <input type="submit" value="VOTE">
+                        <span>Loading...</span>
+                    </form>
+
+                    <form onSubmit="App.createVote(); return false;">
+                        Candidate 2
+                        <input type="hidden" id="candID" name="candID" value=2>
+                        <input type="submit" value="VOTE">
+                    </form>
+                    Vote History
+                            
                     <ul id="taskList" class="list-unstyled">
                         <div class="taskTemplate" style="display: none">
+                            
                             <label>
                                 <span class="voteID">Task content goes here...</span>
                                 <br>

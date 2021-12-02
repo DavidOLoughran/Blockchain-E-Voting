@@ -73,6 +73,8 @@ App = {
 
     },
 
+    
+
     setLoading: (boolean) => {
         App.loading = boolean
         const loader = $('#loader')
@@ -87,7 +89,7 @@ App = {
     },
 
     renderTasks: async () => {
-        const voteCount = await App.election.voteCount()
+        const voteCount = await App.election.voteID()
         const $taskTemplate = $('.taskTemplate')
 
         for (var i = 1; i <= voteCount; i++) {
@@ -95,11 +97,11 @@ App = {
             const task = await App.election.votes(i)
             const voteID = task[0].toNumber()
             const hasVoted = task[1]
-            const candidate = task[2]
+            const candidateID = task[2]
 
             const $newTaskTemplate = $taskTemplate.clone()
-            $newTaskTemplate.find('.content').html(candidate)
-            $newTaskTemplate.find('.voteID').html("VoteID: " + voteID)
+            $newTaskTemplate.find('.content').html(candidateID)
+            $newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " Candidate ID: "+ candidateID)
             $newTaskTemplate.find('input')
                 .prop('name', voteID)
                 //.prop('checked', taskCompleted)
@@ -113,13 +115,23 @@ App = {
 
         }
 
-    }
+    },
+
+    createVote: async ()=>{
+        App.setLoading(true)
+        const content = $('#candID').val()
+        await App.election.createVote(1)
+        window.location.reload()
+
+    },
 
 
 
 
 
 }
+
+
 
 
 
