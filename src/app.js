@@ -117,10 +117,18 @@ App = {
 
     },
 
-    createVote: async ()=>{
+    createVote1: async ()=>{
         App.setLoading(true)
-        const content = $('#candID').val()
-        await App.election.createVote(1)
+        const content = $('#candID1').val()
+        await App.election.createVote(content)
+        window.location.reload()
+
+    },
+
+    createVote2: async ()=>{
+        App.setLoading(true)
+        const content = $('#candID2').val()
+        await App.election.createVote(content)
         window.location.reload()
 
     },
