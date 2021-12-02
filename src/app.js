@@ -90,7 +90,12 @@ App = {
 
     renderTasks: async () => {
         const voteCount = await App.election.voteID()
+        const cand1Count = await App.election.cand1Count()
+        const cand2Count = await App.election.cand2Count()
         const $taskTemplate = $('.taskTemplate')
+        const $countTemplate = $('.countTemplate')
+
+
 
         for (var i = 1; i <= voteCount; i++) {
 
@@ -99,9 +104,19 @@ App = {
             const hasVoted = task[1]
             const candidateID = task[2]
 
+            
+
             const $newTaskTemplate = $taskTemplate.clone()
+            const $newCountTemplate = $countTemplate.clone()
+            $newCountTemplate.find('.count1').html(cand1Count)
+            $newCountTemplate.find('.count2').html(cand2Count)
             $newTaskTemplate.find('.content').html(candidateID)
-            $newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " Candidate ID: "+ candidateID)
+            if (candidateID == 1) {
+                $newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " | Candidate ID: "+ candidateID + " | Total votes: " + cand1Count)
+            } else {
+                $newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " | Candidate ID: "+ candidateID + " | Total votes: " + cand2Count)
+            }
+            //$newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " Candidate ID: "+ candidateID + "votes: " + candCount)
             $newTaskTemplate.find('input')
                 .prop('name', voteID)
                 //.prop('checked', taskCompleted)
@@ -110,8 +125,9 @@ App = {
             if (hasVoted) {
                 $('#taskList').append($newTaskTemplate)
             } 
-
+            $newCountTemplate.show()
             $newTaskTemplate.show()
+            
 
         }
 

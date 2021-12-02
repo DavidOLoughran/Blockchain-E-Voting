@@ -68,16 +68,29 @@
                         Candidate 1
                         <input type="hidden" id="candID1" name="candID1" value=1>
                         <input type="submit" value="VOTE">
-                        <span id="count1">Loading...</span>
+                        
                     </form>
 
                     <form onSubmit="App.createVote2(); return false;">
                         Candidate 2
                         <input type="hidden" id="candID2" name="candID2" value=2>
                         <input type="submit" value="VOTE">
-                        <span id="count2">Loading...</span>
+                        
                     </form>
-                    Vote History
+
+                    <ul id="countList" class="list-unstyled">
+                        <div class="countTemplate" style="display: none">
+                            same
+                            <label>
+                                <span class="count1">Task content goes here...</span>
+                                <br>
+                                
+                            </label>
+                        </div>
+                    </ul>
+
+                    
+                    
                             
                     <ul id="taskList" class="list-unstyled">
                         <div class="taskTemplate" style="display: none">

@@ -32,7 +32,7 @@ contract Election {
 
     constructor() public {
         createVote(1);
-        createVote(2);
+        //createVote(2);
    
 
         
