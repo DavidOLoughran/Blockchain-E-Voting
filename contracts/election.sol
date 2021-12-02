@@ -23,6 +23,9 @@ contract Election {
 
     constructor() public {
         createVote("Candidate 1");
+        createVote("Candidate 1");
+        createVote("Candidate 1");
+        createVote("Candidate 2");
     }
 
     function createVote(string memory _candidate) public{
