@@ -64,20 +64,22 @@
                     <p class="text-center">Loading...</p>
                 </div>
                 <div id="content">
-                    <form onSubmit="App.createVote1(); return false;">
-                        Candidate 1
-                        <input type="hidden" id="candID1" name="candID1" value=1>
-                        <input type="submit" value="VOTE">
+                    <div class="candList"> 
+                        <form id="name" onSubmit="App.createVote1(); return false;">
                         
-                    </form>
-
-                    <form onSubmit="App.createVote2(); return false;">
-                        Candidate 2
-                        <input type="hidden" id="candID2" name="candID2" value=2>
-                        <input type="submit" value="VOTE">
+                            <h3 id="name1">Loading...</h3>
+                            <input type="hidden" id="candID1" name="candID1" value=1>
+                            <input type="submit" value="VOTE">
                         
-                    </form>
+                        </form>
 
+                        <form onSubmit="App.createVote2(); return false;">
+                            <h3 id="name2">Loading...</h3>
+                            <input type="hidden" id="candID2" name="candID2" value=2>
+                            <input type="submit" value="VOTE">
+                        
+                        </form>
+                    </div>
                     <ul id="countList" class="list-unstyled">
                         <div class="countTemplate" style="display: none">
                             same

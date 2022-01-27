@@ -93,11 +93,17 @@ App = {
         const cand1Count = await App.election.cand1Count()
         const cand2Count = await App.election.cand2Count()
         const $taskTemplate = $('.taskTemplate')
-        const $countTemplate = $('.countTemplate')
 
-        const candidates = await App.election.candidates(1)
+        //const $cands = $candTemplate.clone()
+        //$cands.find
 
-        console.log(candidates[2])
+        const candidate = await App.election.candidates(1)
+        const candidate2 = await App.election.candidates(2)
+        
+        $("#name1").html(candidate[2]);
+        $("#name2").html(candidate2[2]);
+
+
 
 
 
@@ -117,10 +123,7 @@ App = {
             
 
             const $newTaskTemplate = $taskTemplate.clone()
-            const $newCountTemplate = $countTemplate.clone()
-            $newCountTemplate.find('.count1').html(cand1Count)
-            $newCountTemplate.find('.count2').html(cand2Count)
-            $newTaskTemplate.find('.content').html(candidateID)
+
             if (candidateID == 1) {
                 $newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " | Candidate ID: "+ candidateID + " | Total votes: " + cand1Count)
             } else {
