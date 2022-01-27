@@ -34,16 +34,12 @@ contract Election {
     constructor() public {
         createCandidate("John");
         createCandidate("Mary");
-        createVote(1);
-        createVote(2);
-   
-
-        
+ 
     }
 
     function createCandidate(string memory _name) public{
         candidatesCount ++;
-        candidates[candidatesCount] = Candidate(candidatesCount, 5,  _name);
+        candidates[candidatesCount] = Candidate(candidatesCount, 0,  _name);
 
     }
 
@@ -55,14 +51,14 @@ contract Election {
             votes[voteID] = Vote(voteID, true , _candidateID);
             cand1Count++;
             //////////////
-
-
-
+            //uint cand = candidates[_candidateID];
+            candidates[_candidateID].voteCount ++;
 
         }else if(_candidateID ==  2){
             voteID ++;
             votes[voteID] = Vote(voteID, true , _candidateID);
             cand2Count++;
+            candidates[_candidateID].voteCount ++;
 
         }
 

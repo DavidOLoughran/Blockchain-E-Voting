@@ -100,8 +100,8 @@ App = {
         const candidate = await App.election.candidates(1)
         const candidate2 = await App.election.candidates(2)
         
-        $("#name1").html(candidate[2]);
-        $("#name2").html(candidate2[2]);
+        $("#name1").html(candidate[2] + "  |  Votes: " + candidate[1]);
+        $("#name2").html(candidate2[2] + "  |  Votes: " + candidate2[1]);
 
 
 
@@ -136,7 +136,7 @@ App = {
             // .on('click', App.toggleCompleted)
 
             if (hasVoted) {
-               $('#taskList').html($newTaskTemplate)
+               $('#taskList').append($newTaskTemplate)
                // $('#taskList').get
             } 
             //$newCountTemplate.show()
