@@ -29,20 +29,35 @@ contract Election {
 
     mapping(uint => Vote) public votes;
     mapping(uint => Candidate) public candidates;
+    uint public candidatesCount = 0;
 
     constructor() public {
+        createCandidate("John");
+        createCandidate("Mary");
         createVote(1);
-        //createVote(2);
+        createVote(2);
    
 
         
     }
+
+    function createCandidate(string memory _name) public{
+        candidatesCount ++;
+        candidates[candidatesCount] = Candidate(candidatesCount, 5,  _name);
+
+    }
+
+
 
     function createVote(uint _candidateID) public{
         if(_candidateID ==  1){
             voteID ++;
             votes[voteID] = Vote(voteID, true , _candidateID);
             cand1Count++;
+            //////////////
+
+
+
 
         }else if(_candidateID ==  2){
             voteID ++;

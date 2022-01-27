@@ -95,6 +95,12 @@ App = {
         const $taskTemplate = $('.taskTemplate')
         const $countTemplate = $('.countTemplate')
 
+        const candidates = await App.election.candidates(1)
+
+        console.log(candidates[2])
+
+
+
 
 
         for (var i = 1; i <= voteCount; i++) {
@@ -102,8 +108,12 @@ App = {
             const task = await App.election.votes(i)
             const voteID = task[0].toNumber()
             const hasVoted = task[1]
-            const candidateID = task[2]
+            const candidateID = task[2].toNumber()
 
+            console.log("new")
+            console.log(voteID)
+            console.log(candidateID)
+        
             
 
             const $newTaskTemplate = $taskTemplate.clone()
@@ -114,7 +124,7 @@ App = {
             if (candidateID == 1) {
                 $newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " | Candidate ID: "+ candidateID + " | Total votes: " + cand1Count)
             } else {
-                $newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " | Candidate ID: "+ candidateID + " | Total votes: " + cand2Count)
+                $newTaskTemplate.find('.voteID2').html("VoteID: " + voteID + " | Candidate ID: "+ candidateID + " | Total votes: " + cand2Count)
             }
             //$newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " Candidate ID: "+ candidateID + "votes: " + candCount)
             $newTaskTemplate.find('input')
@@ -123,9 +133,10 @@ App = {
             // .on('click', App.toggleCompleted)
 
             if (hasVoted) {
-                $('#taskList').append($newTaskTemplate)
+               $('#taskList').html($newTaskTemplate)
+               // $('#taskList').get
             } 
-            $newCountTemplate.show()
+            //$newCountTemplate.show()
             $newTaskTemplate.show()
             
 
