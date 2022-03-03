@@ -1,185 +1,316 @@
-App = {
-    loading: false,
-    contracts: {},
+import logo from "./logo.svg";
+import "./App.css";
 
-    load: async () => {
-        await App.loadWeb3()
-        await App.loadAccount()
-        await App.loadContract()
-        await App.render()
+import {
+  Flex,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  HStack,
+  InputRightElement,
+  Stack,
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
+  Link,
+  Container,
+  VisuallyHidden,
+  ViewIcon,
+  ViewOffIcon,
+} from "@chakra-ui/react";
+import {
+  useMoralis,
+  useWeb3ExecuteFunction,
+  MoralisProvider,
+} from "react-moralis";
+import { useState, useEffect } from "react";
+
+const SignUp = () => {
+  const { signup } = useMoralis();
+
+  const [firstname, setFirst] = useState("");
+  const [lastname, setLast] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  //var username = firstname + " " + lastname;
+
+  return (
+    <Flex
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+    >
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"} textAlign={"center"}>
+            Sign up
+          </Heading>
+          <Text fontSize={"lg"} color={"gray.600"}>
+            to enjoy all of our cool features ✌️
+          </Text>
+        </Stack>
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          p={8}
+        >
+          <Stack spacing={4}>
+            <HStack>
+              <Box>
+                <FormControl id="firstName" isRequired>
+                  <FormLabel>First Name</FormLabel>
+                  <Input
+                    placeholder="First name"
+                    type="text"
+                    value={firstname}
+                    onChange={(event) => setFirst(event.currentTarget.value)}
+                  />
+                </FormControl>
+              </Box>
+              <Box>
+                <FormControl id="lastName">
+                  <FormLabel>Last Name</FormLabel>
+                  <Input
+                    placeholder="Last name"
+                    type="text"
+                    value={lastname}
+                    onChange={(event) => setLast(event.currentTarget.value)}
+                  />
+                </FormControl>
+              </Box>
+            </HStack>
+            <FormControl id="email" isRequired>
+              <FormLabel>Email address</FormLabel>
+              <Input
+                placeholder="Email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.currentTarget.value)}
+              />
+            </FormControl>
+            <FormControl id="password" isRequired>
+              <FormLabel>Password</FormLabel>
+              <InputGroup>
+                <Input
+                  placeholder="Password"
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.currentTarget.value)}
+                />
+                <InputRightElement h={"full"}></InputRightElement>
+              </InputGroup>
+            </FormControl>
+            <Stack spacing={10} pt={2}>
+              <Button
+                loadingText="Submitting"
+                size="lg"
+                bg={"blue.400"}
+                color={"white"}
+                _hover={{
+                  bg: "blue.500",
+                }}
+                onClick={() => signup(email, password, email)}
+              >
+                Sign up
+              </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={"center"}>
+                Already a user? <Link color={"blue.400"}>Login</Link>
+              </Text>
+            </Stack>
+          </Stack>
+        </Box>
+      </Stack>
+    </Flex>
+  );
+};
+
+const Login = () => {
+  const { login, user } = useMoralis();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  return (
+    <Flex
+      minH={"50vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+    >
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"7xl"} textAlign={"center"}>
+            E-Voting
+          </Heading>
+          <Heading fontSize={"4xl"} textAlign={"center"}>
+            Login
+          </Heading>
+          <Text fontSize={"lg"} color={"gray.600"}>
+            to enjoy all of our cool features ✌️
+          </Text>
+        </Stack>
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          p={10}
+        >
+          <Stack spacing={4}>
+            <FormControl id="email" isRequired>
+              <FormLabel>Email address</FormLabel>
+              <Input
+                placeholder="Email"
+                type="email"
+                value={username}
+                onChange={(event) => setUsername(event.currentTarget.value)}
+              />
+            </FormControl>
+            <FormControl id="password" isRequired>
+              <FormLabel>Password</FormLabel>
+              <InputGroup>
+                <Input
+                  placeholder="Password"
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.currentTarget.value)}
+                />
+                <InputRightElement h={"full"}></InputRightElement>
+              </InputGroup>
+            </FormControl>
+            <Stack spacing={10} pt={2}>
+              <Button
+                loadingText="Submitting"
+                size="lg"
+                bg={"blue.400"}
+                color={"white"}
+                _hover={{
+                  bg: "blue.500",
+                }}
+                onClick={() => login(username, password)}
+              >
+                Login
+              </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={"center"}>Not registered?</Text>
+            </Stack>
+          </Stack>
+        </Box>
+        <Text>
+          Note: You must verify your email before accessing your account
+        </Text>
+      </Stack>
+    </Flex>
+  );
+};
+
+function App() {
+  const {
+    authenticate,
+    isAuthenticated,
+    logout,
+    user,
+    isWeb3Enabled,
+    isWeb3EnableLoading,
+    enableWeb3,
+  } = useMoralis();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const { web3 } = useMoralis();
+
+  useEffect(() => {
+    if (!isWeb3Enabled && !isWeb3EnableLoading) {
+      enableWeb3();
+      console.log("Starting Web3");
+    } else {
+      console.log("Web3 Enabled");
+    }
+  }, [isWeb3Enabled, isWeb3EnableLoading]);
+
+  // const EnableWeb3 = ({ user }) => {
+  //   const {
+  //     web3,
+  //     enableWeb3,
+  //     isWeb3Enabled,
+  //     isWeb3EnableLoading,
+  //     web3EnableError,
+  //   } = useMoralis();
+
+  //   if (isWeb3Enabled) {
+  //     return null;
+  //   }
+  // };
+
+  const ABI = require("./Election.json");
+
+  //const contractProcessor = useWeb3ExecuteFunction();
+  const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
+    abi: ABI.abi,
+    contractAddress: "0x4998Df3A25f117badF535EAD8AA673F68326ee9b",
+    functionName: "createElection",
+    params: {
+      _name: ["John", "Mary"],
     },
+  });
 
-    loadWeb3: async () => {
-        if (typeof web3 !== 'undefined') {
-            App.web3Provider = web3.currentProvider
-            web3 = new Web3(web3.currentProvider)
-        } else {
-            window.alert("Please connect to Metamask.")
-        }
-        // Modern dapp browsers...
-        if (window.ethereum) {
-            window.web3 = new Web3(ethereum)
-            try {
-                // Request account access if needed
-                await ethereum.enable()
-                // Acccounts now exposed
-                web3.eth.sendTransaction({/* ... */ })
-            } catch (error) {
-                // User denied account access...
-            }
-        }
-        // Legacy dapp browsers...
-        else if (window.web3) {
-            App.web3Provider = web3.currentProvider
-            window.web3 = new Web3(web3.currentProvider)
-            // Acccounts always exposed
-            web3.eth.sendTransaction({/* ... */ })
-        }
-        // Non-dapp browsers...
-        else {
-            console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
-        }
-    },
+  console.log(data);
 
-    loadAccount: async () => {
-        App.account = web3.eth.accounts[0]
-        console.log(App.account)
-    },
+  if (isAuthenticated && user) {
+    //await Moralis.enableWeb3();
 
-    loadContract: async () => {
+    //const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction();
 
-        const election = await $.getJSON('Election.json')
+    let options = {
+      abi: ABI.abi,
+      contractAddress: "0x4998Df3A25f117badF535EAD8AA673F68326ee9b",
+      functionName: "createElection",
+      params: {
+        _name: ["John", "Mary"],
+      },
 
-        App.contracts.Election = TruffleContract(election)
-        App.contracts.Election.setProvider(App.web3Provider)
+    };
 
-        App.election = await App.contracts.Election.deployed()
-    },
+    return (
+      <Container>
+        <Heading>
+          Hello {user.attributes.username}, Welcome to the E-Voting Hub
+        </Heading>
+        <Button
+          onClick={() => fetch({ params: options })}
+          disabled={isFetching}
+        >
+          Fetch data
+        </Button>
+        <VisuallyHidden>{JSON.stringify(data)}</VisuallyHidden>
+        <Button onClick={() => logout()}>Logout</Button>
+      </Container>
+    );
+  } else if (isAuthenticated && user) {
+    return (
+      <Container align={"center"} spacing={4}>
+        <Heading>Please verify your email to access your account</Heading>
+        <Button onClick={() => logout()}>Logout</Button>
+      </Container>
+    );
+  }
 
-    render: async () => {
-
-        // Prevent double render
-        if (App.loading) {
-            return
-        }
-
-        App.setLoading(true)
-
-        $('#account').html(App.account)
-
-        await App.renderTasks()
-
-        App.setLoading(false)
-
-    },
-
-    
-
-    setLoading: (boolean) => {
-        App.loading = boolean
-        const loader = $('#loader')
-        const content = $('#content')
-        if (boolean) {
-            loader.show()
-            content.hide()
-        } else {
-            loader.hide()
-            content.show()
-        }
-    },
-
-    renderTasks: async () => {
-        const voteCount = await App.election.voteID()
-        const cand1Count = await App.election.cand1Count()
-        const cand2Count = await App.election.cand2Count()
-        const $taskTemplate = $('.taskTemplate')
-
-        //const $cands = $candTemplate.clone()
-        //$cands.find
-
-        const candidate = await App.election.candidates(1)
-        const candidate2 = await App.election.candidates(2)
-        
-        $("#name1").html(candidate[2] + "  |  Votes: " + candidate[1]);
-        $("#name2").html(candidate2[2] + "  |  Votes: " + candidate2[1]);
-
-
-
-
-
-
-
-        for (var i = 1; i <= voteCount; i++) {
-
-            const task = await App.election.votes(i)
-            const voteID = task[0].toNumber()
-            const hasVoted = task[1]
-            const candidateID = task[2].toNumber()
-
-            console.log("new")
-            console.log(voteID)
-            console.log(candidateID)
-        
-            
-
-            const $newTaskTemplate = $taskTemplate.clone()
-
-            if (candidateID == 1) {
-                $newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " | Candidate ID: "+ candidateID + " | Total votes: " + cand1Count)
-            } else {
-                $newTaskTemplate.find('.voteID2').html("VoteID: " + voteID + " | Candidate ID: "+ candidateID + " | Total votes: " + cand2Count)
-            }
-            //$newTaskTemplate.find('.voteID').html("VoteID: " + voteID + " Candidate ID: "+ candidateID + "votes: " + candCount)
-            $newTaskTemplate.find('input')
-                .prop('name', voteID)
-                //.prop('checked', taskCompleted)
-            // .on('click', App.toggleCompleted)
-
-            if (hasVoted) {
-               $('#taskList').append($newTaskTemplate)
-               // $('#taskList').get
-            } 
-            //$newCountTemplate.show()
-            $newTaskTemplate.show()
-            
-
-        }
-
-    },
-
-    createVote1: async ()=>{
-        App.setLoading(true)
-        const content = $('#candID1').val()
-        await App.election.createVote(content)
-        window.location.reload()
-
-    },
-
-    createVote2: async ()=>{
-        App.setLoading(true)
-        const content = $('#candID2').val()
-        await App.election.createVote(content)
-        window.location.reload()
-
-    },
-
-
-
-
-
+  return (
+    <Container>
+      <Button onClick={() => authenticate()}>Authenticate</Button>
+      <Login />
+      <SignUp />
+    </Container>
+  );
 }
 
-
-
-
-
-
-
-
-
-$(() => {
-    $(window).load(() => {
-        App.load()
-    })
-})
-
+export default App;
