@@ -22,6 +22,7 @@ import {
 const DisplayCandidates = ({ candidates }) => {
     return (
         <Container>
+
             <Heading>{JSON.stringify(candidates)}</Heading>
 
         </Container>
