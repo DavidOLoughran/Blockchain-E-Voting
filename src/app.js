@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
+import DisplayCandidates from "./DisplayCandidates";
 
 import {
   Flex,
@@ -264,14 +265,28 @@ function App() {
     },
   });
 
+  let candidates = [{ name: "", voteCount: 0 }];
+  let candidate = { name: "", voteCount: 0 };
 
+  const [candidateEffect, setCandidates] = useState(null);
+
+
+  //Fetching data from the Polygon blockcahin
+  //useEffect used to avoid render errors while waiting for data to be retrieved
   useEffect(() => {
     if (!isFetching && !isLoading) {
       fetch();
       //console.log("Fetching data");
     } else if (data !== null) {
       console.log(data[0])
+      candidate.name = data[0]
+      candidate.voteCount = parseInt(data[2]._hex)
+      console.log(candidate.voteCount)
+      candidates.push(candidate)
       console.log(isFetching)
+
+      setCandidates(candidates)
+      console.log(candidateEffect)
       //console.log(isLoading)
     }
   }, [isLoading]);
@@ -315,6 +330,9 @@ function App() {
         <Heading>
           Hello {user.attributes.username}, Welcome to the E-Voting Hub
         </Heading>
+        {candidateEffect && <DisplayCandidates candidates={candidateEffect} />}
+        <Heading>{candidate.name}</Heading>
+        <Heading>{candidate.voteCount}</Heading>
         <Button
 
         >
