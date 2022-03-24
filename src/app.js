@@ -253,17 +253,38 @@ function App() {
 
   const ABI = require("./Election.json");
 
-  //const contractProcessor = useWeb3ExecuteFunction();
+  const contractProcessor = useWeb3ExecuteFunction();
   const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
     abi: ABI.abi,
-    contractAddress: "0x4998Df3A25f117badF535EAD8AA673F68326ee9b",
-    functionName: "createElection",
+    contractAddress: "0xEC61594D28ead9ec79395C9d177A35BdA5217338",
+    functionName: "getCandidate",
     params: {
-      _name: ["John", "Mary"],
+      _elecID: 0,
+      _candID: 0,
     },
   });
 
-  console.log(data);
+
+  useEffect(() => {
+    if (!isFetching && !isLoading) {
+      fetch();
+      //console.log("Fetching data");
+    } else if (data !== null) {
+      console.log(data[0])
+      console.log(isFetching)
+      //console.log(isLoading)
+    }
+  }, [isLoading]);
+
+  //console.log(data)
+
+  // try {
+  //   console.log(parseInt(data[2]._hex));
+  // } catch (error) {
+  //   console.log("Loading Data");
+  // }
+
+  //console.log(parseInt(data[2]._hex));
 
   if (isAuthenticated && user) {
     //await Moralis.enableWeb3();
@@ -272,13 +293,22 @@ function App() {
 
     let options = {
       abi: ABI.abi,
-      contractAddress: "0x4998Df3A25f117badF535EAD8AA673F68326ee9b",
-      functionName: "createElection",
+      contractAddress: "0xEC61594D28ead9ec79395C9d177A35BdA5217338",
+      functionName: "getCandidate",
       params: {
-        _name: ["John", "Mary"],
+        _elecID: 0,
+        _candID: 0,
       },
 
     };
+
+
+
+    //fetch()
+    //console.log(data);
+
+
+    //let lol = 0;
 
     return (
       <Container>
@@ -286,16 +316,15 @@ function App() {
           Hello {user.attributes.username}, Welcome to the E-Voting Hub
         </Heading>
         <Button
-          onClick={() => fetch({ params: options })}
-          disabled={isFetching}
+
         >
           Fetch data
         </Button>
-        <VisuallyHidden>{JSON.stringify(data)}</VisuallyHidden>
+
         <Button onClick={() => logout()}>Logout</Button>
       </Container>
     );
-  } else if (isAuthenticated && user) {
+  } else if (isAuthenticated && !user) {
     return (
       <Container align={"center"} spacing={4}>
         <Heading>Please verify your email to access your account</Heading>
