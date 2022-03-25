@@ -2,6 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import Nav from "./Sidebar";
 import DisplayCandidates from "./DisplayCandidates";
 
 import {
@@ -22,6 +23,8 @@ import {
   Container,
   VisuallyHidden,
   ViewIcon,
+  extendTheme,
+  ChakraProvider,
   ViewOffIcon,
 } from "@chakra-ui/react";
 import {
@@ -30,6 +33,7 @@ import {
   MoralisProvider,
 } from "react-moralis";
 import { useState, useEffect } from "react";
+import Sidebar from "./Sidebar";
 
 
 
@@ -56,20 +60,6 @@ function App() {
       console.log("Web3 Enabled");
     }
   }, [isWeb3Enabled, isWeb3EnableLoading]);
-
-  // const EnableWeb3 = ({ user }) => {
-  //   const {
-  //     web3,
-  //     enableWeb3,
-  //     isWeb3Enabled,
-  //     isWeb3EnableLoading,
-  //     web3EnableError,
-  //   } = useMoralis();
-
-  //   if (isWeb3Enabled) {
-  //     return null;
-  //   }
-  // };
 
   const ABI = require("./Election.json");
 
@@ -110,20 +100,9 @@ function App() {
     }
   }, [isLoading]);
 
-  //console.log(data)
-
-  // try {
-  //   console.log(parseInt(data[2]._hex));
-  // } catch (error) {
-  //   console.log("Loading Data");
-  // }
-
   //console.log(parseInt(data[2]._hex));
 
   if (isAuthenticated && user) {
-    //await Moralis.enableWeb3();
-
-    //const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction();
 
     let options = {
       abi: ABI.abi,
@@ -136,29 +115,15 @@ function App() {
 
     };
 
-
-
-    //fetch()
-    //console.log(data);
-
-
-    //let lol = 0;
-
     return (
-      <Container>
-        <Heading>
-          Hello {user.attributes.username}, Welcome to the E-Voting Hub
+      <Container maxW='100%'>
+        <Sidebar>
+          <Heading>
+            Hello, Welcome to the E-Voting Hub
         </Heading>
-        {candidateEffect && <DisplayCandidates candidates={candidateEffect} />}
-        <Heading>{candidate.name}</Heading>
-        <Heading>{candidate.voteCount}</Heading>
-        <Button
-
-        >
-          Fetch data
-        </Button>
-
-        <Button onClick={() => logout()}>Logout</Button>
+          {candidateEffect && <DisplayCandidates candidates={candidateEffect} />}
+          <Button onClick={() => logout()}>Logout</Button>
+        </Sidebar>
       </Container>
     );
   } else if (isAuthenticated && !user) {
@@ -171,11 +136,19 @@ function App() {
   }
 
   return (
-    <Container>
-      <Button onClick={() => authenticate()}>Authenticate</Button>
-      <Login />
-      <SignUp />
+
+    <Container maxW='container.xl'>
+
+      <Login></Login>
+      <Button onClick={() => authenticate()}>Authenticate Wallet</Button>
+      <SignUp></SignUp>
+
+
+
+
+
     </Container>
+
   );
 }
 

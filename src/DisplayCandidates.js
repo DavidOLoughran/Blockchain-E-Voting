@@ -20,10 +20,16 @@ import {
 } from "@chakra-ui/react";
 
 const DisplayCandidates = ({ candidates }) => {
+    console.log(candidates)
     return (
         <Container>
+            {candidates.map(candidate => (
+                <Container>
+                    <Heading>{candidate.name}</Heading>
+                    <Heading>{candidate.voteCount}</Heading>
 
-            <Heading>{JSON.stringify(candidates)}</Heading>
+                </Container>
+            ))}
 
         </Container>
 
