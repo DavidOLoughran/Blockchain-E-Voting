@@ -34,6 +34,7 @@ import {
 } from "react-moralis";
 import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
+import GetCandidate from "./GetCandidate";
 
 
 
@@ -74,8 +75,8 @@ function App() {
     },
   });
 
-  let candidates = [{ name: "", voteCount: 0 }];
-  let candidate = { name: "", voteCount: 0 };
+  let candidates = [{ name: "Default Candidate", voteCount: 0 }, { name: "Default Candidate Test", voteCount: 0 }];
+  let candidate = { name: "Default", voteCount: 0 };
 
   const [candidateEffect, setCandidates] = useState(null);
 
@@ -118,11 +119,10 @@ function App() {
     return (
       <Container maxW='100%'>
         <Sidebar>
-          <Heading>
-            Hello, Welcome to the E-Voting Hub
+          <Heading align={"center"}>
+            Default Election Name
         </Heading>
-          {candidateEffect && <DisplayCandidates candidates={candidateEffect} />}
-          <Button onClick={() => logout()}>Logout</Button>
+          {candidateEffect && <GetCandidate candidates={candidateEffect} />}
         </Sidebar>
       </Container>
     );
@@ -130,7 +130,7 @@ function App() {
     return (
       <Container align={"center"} spacing={4}>
         <Heading>Please verify your email to access your account</Heading>
-        <Button onClick={() => logout()}>Logout</Button>
+
       </Container>
     );
   }
