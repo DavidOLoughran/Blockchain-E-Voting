@@ -46,18 +46,16 @@ const DisplayCandidates = ({ candidate }) => {
                         {candidate.name}
                     </Heading>
                     <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-                        @lindsey_jam3s
-          </Text>
+                        {candidate.voteCount}
+                    </Text>
                     <Text
                         textAlign={'center'}
                         //color={useColorModeValue('gray.700', 'gray.400')}
                         px={3}>
-                        Actress, musician, songwriter and artist. PM for work inquires or
-            <Link href={'#'} color={'blue.400'}>
-                            #tag
-            </Link>
-            me in your posts
-          </Text>
+                        {candidate.info}
+
+
+                    </Text>
 
 
                     <Stack
