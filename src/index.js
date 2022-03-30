@@ -17,7 +17,7 @@ const theme = extendTheme({
 const appId = "6nHDMUsCh9pJ7SVJ4KQwbRKBDHeHiT2A1baUYJMU";
 const serverUrl = "https://3fxisly2dx7q.usemoralis.com:2053/server";
 
-Moralis.start({ serverUrl, appId });
+
 
 ReactDOM.render(
 
