@@ -5,6 +5,7 @@ import LoginButton from "./Auth0Reg";
 import SignUp from "./SignUp";
 import Nav from "./Sidebar";
 import DisplayCandidates from "./DisplayCandidates";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import {
   Flex,
@@ -130,14 +131,16 @@ function App() {
     // left side of && has to be populated for the right side to be executed
 
     return (
-      <Container maxW='100%'>
-        <Sidebar>
-          <Heading align={"center"}>
-            Default Election Name
-        </Heading>
-          {candidateEffect && <GetCandidate data={candidateEffect} />}
-        </Sidebar>
-      </Container>
+      <Router>
+        <Container maxW='100%'>
+          <Sidebar>
+            <Heading align={"center"}>
+              Default Election Name
+            </Heading>
+            {candidateEffect && <GetCandidate data={candidateEffect} />}
+          </Sidebar>
+        </Container>
+      </Router>
     );
   } else if (isAuthenticated && !user) {
     return (

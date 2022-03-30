@@ -11,7 +11,32 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react';
 
+import {
+    useMoralis,
+    useWeb3ExecuteFunction,
+    MoralisProvider,
+} from "react-moralis";
+import { useState, useEffect } from "react";
+
+
 const DisplayCandidates = ({ candidate }) => {
+
+    const ABI = require("./Election.json");
+
+    const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
+        abi: ABI.abi,
+        contractAddress: "0xD652a606953d87A58657da31F670Ba522Fd4F2D1",
+        functionName: "createVote",
+        params: {
+            _elecID: 0,
+            _candID: candidate.candID,
+
+        },
+    });
+
+    const castVote = () => {
+        fetch()
+    }
     return (
 
         <Center py={6}>
@@ -67,6 +92,7 @@ const DisplayCandidates = ({ candidate }) => {
                         alignItems={'center'}>
 
                         <Button
+
                             flex={1}
                             fontSize={'sm'}
                             rounded={'full'}
@@ -80,7 +106,8 @@ const DisplayCandidates = ({ candidate }) => {
                             }}
                             _focus={{
                                 bg: 'blue.500',
-                            }}>
+                            }}
+                            onClick={() => castVote()}>
                             Cast Vote
             </Button>
                     </Stack>
