@@ -137,7 +137,11 @@ function App() {
             <Heading align={"center"}>
               Default Election Name
             </Heading>
-            {candidateEffect && <GetCandidate data={candidateEffect} />}
+            <Switch>
+              <Route path="/elections" component={Login}>
+
+              </Route>
+            </Switch>
           </Sidebar>
         </Container>
       </Router>

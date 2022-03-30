@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { useHistory } from "react-router-dom";
 import {
     IconButton,
     Avatar,
@@ -52,12 +53,20 @@ interface LinkItemProps {
     icon: IconType;
 }
 const LinkItems: Array<LinkItemProps> = [
-    { name: 'Home', icon: FiHome },
-    { name: 'Verify Identity', icon: FiShield },
-    { name: 'Elections', icon: FiUsers },
-    { name: 'Create Election', icon: FiUserPlus },
-    { name: 'Settings', icon: FiSettings },
+    { name: 'Home', icon: FiHome, path: '/' },
+    { name: 'Verify Identity', icon: FiShield, path: '/verify' },
+    { name: 'Elections', icon: FiUsers, path: '/elections' },
+    { name: 'Create Election', icon: FiUserPlus, path: '/create_election' },
+    { name: 'Settings', icon: FiSettings, path: '/settings' },
 ];
+
+function HomeButton() {
+    const history = useHistory();
+
+    function handleClick() {
+        history.push("/elections");
+    }
+}
 
 export default function Sidebar({
     children,
@@ -66,6 +75,9 @@ export default function Sidebar({
 }) {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+
+
 
 
     return (
@@ -117,9 +129,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                 <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
             </Flex>
             {LinkItems.map((link) => (
-                <NavItem key={link.name} icon={link.icon}>
-                    {link.name}
-                </NavItem>
+                <Link href="/elections">
+                    <NavItem link={link.path} key={link.name} icon={link.icon}>
+                        {link.name}
+                    </NavItem>
+                </Link>
             ))}
         </Box>
     );
@@ -129,9 +143,9 @@ interface NavItemProps extends FlexProps {
     icon: IconType;
     children: ReactText;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ link, icon, children, ...rest }: NavItemProps) => {
     return (
-        <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+        <Link href={link} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
             <Flex
                 align="center"
                 p="4"

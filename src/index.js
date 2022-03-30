@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { MoralisProvider } from "react-moralis";
 import { Auth0Provider } from "@auth0/auth0-react";
-import { BrowserRouter, Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 const theme = extendTheme({
   config: {
@@ -16,6 +16,8 @@ const theme = extendTheme({
 
 const appId = "6nHDMUsCh9pJ7SVJ4KQwbRKBDHeHiT2A1baUYJMU";
 const serverUrl = "https://3fxisly2dx7q.usemoralis.com:2053/server";
+
+Moralis.start({ serverUrl, appId });
 
 ReactDOM.render(
 

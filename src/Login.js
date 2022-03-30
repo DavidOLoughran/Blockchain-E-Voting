@@ -32,7 +32,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
 
     return (
-        <Flex
+        <Flex className="elections"
             minH={"50vh"}
             align={"center"}
             justify={"center"}
