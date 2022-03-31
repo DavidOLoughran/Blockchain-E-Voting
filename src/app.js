@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import "./App.css";
+import "./app.css";
 import Login from "./Login";
 import LoginButton from "./Auth0Reg";
 import SignUp from "./SignUp";
@@ -134,14 +134,15 @@ function App() {
       <Router>
         <Container maxW='100%'>
           <Sidebar>
-            <Heading align={"center"}>
-              Default Election Name
-            </Heading>
-            <Switch>
-              <Route path="/elections" component={Login}>
 
-              </Route>
-            </Switch>
+            <Route exact path="/" component={SignUp} />
+
+
+
+            <Route path="/elections" component={Login} />
+
+
+
           </Sidebar>
         </Container>
       </Router>
