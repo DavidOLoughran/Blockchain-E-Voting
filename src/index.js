@@ -22,18 +22,19 @@ const serverUrl = "https://3fxisly2dx7q.usemoralis.com:2053/server";
 ReactDOM.render(
 
   <React.StrictMode>
-
-    <Auth0Provider
-      domain="blockchain-evoting.eu.auth0.com"
-      clientId="ltBxUsMWtP3sDKoey2TLu9DSnOJOZfby"
-      redirectUri={window.location.origin}
-    >
-      <MoralisProvider appId={appId} serverUrl={serverUrl}>
-        <ChakraProvider theme={theme}>
-          <App />
-        </ChakraProvider>
-      </MoralisProvider>
-    </Auth0Provider>
+    <BrowserRouter>
+      <Auth0Provider
+        domain="blockchain-evoting.eu.auth0.com"
+        clientId="ltBxUsMWtP3sDKoey2TLu9DSnOJOZfby"
+        redirectUri={window.location.origin}
+      >
+        <MoralisProvider appId={appId} serverUrl={serverUrl}>
+          <ChakraProvider theme={theme}>
+            <App />
+          </ChakraProvider>
+        </MoralisProvider>
+      </Auth0Provider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,11 +1,15 @@
 import logo from "./logo.svg";
 import "./app.css";
 import Login from "./Login";
+import Incorrect from "./incorrectAddress";
+import CheckingAccount from "./checkingAccount";
 import LoginButton from "./Auth0Reg";
+import LogoutButton from "./LogoutButton";
 import SignUp from "./SignUp";
 import Nav from "./Sidebar";
 import DisplayCandidates from "./DisplayCandidates";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { BrowserRouter as Router, Route, Switch, useLocation } from "react-router-dom";
 
 import {
   Flex,
@@ -40,33 +44,58 @@ import GetCandidate from "./GetCandidate";
 
 
 
+
+
 function App() {
   const {
     authenticate,
     isAuthenticated,
+    isAuthenticating,
     logout,
     user,
     isWeb3Enabled,
     isWeb3EnableLoading,
     enableWeb3,
+    account,
+    setUserData,
+    isUserUpdating,
   } = useMoralis();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
   const { web3 } = useMoralis();
 
+  console.log(account)
+
+  // const unsubscribe = Moralis.Web3.onAccountsChanged(function (accounts) {
+
+  // });
+
+
+
+
+
+  const location = useLocation();
+
+  const { auth0user } = useAuth0();
+
+  const Auth0Auth = useAuth0().isAuthenticated;
+  const Auth0Loading = useAuth0.isLoading;
+
+  //console.log(location)
+
   useEffect(() => {
     if (!isWeb3Enabled && !isWeb3EnableLoading) {
       enableWeb3();
       console.log("Starting Web3");
     } else {
+      //console.log()
       console.log("Web3 Enabled");
     }
   }, [isWeb3Enabled, isWeb3EnableLoading]);
 
   const ABI = require("./Election.json");
 
-  const contractProcessor = useWeb3ExecuteFunction();
   const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
     abi: ABI.abi,
     contractAddress: "0xD652a606953d87A58657da31F670Ba522Fd4F2D1",
@@ -87,6 +116,8 @@ function App() {
   //useEffect used to avoid render errors while waiting for data to be retrieved
   let lol = false
 
+  //console.log(user.attributes.isLinked)
+
   useEffect(() => {
     if (!isFetching && !isLoading) {
       fetch();
@@ -94,18 +125,6 @@ function App() {
     } else if (data !== null) {
       console.log(data[0][1])
 
-
-
-
-
-      // data[0].map(element =>
-
-      //   console.log(element));
-
-      //   //candidate.name = details[0]
-      //   //candidate.voteCount = parseInt(details[1]._hex)
-      //   //candidate.info = details[2]
-      //   //candidates.push(candidate)
       console.log(data)
 
       setCandidates(data)
@@ -113,9 +132,29 @@ function App() {
     }
   }, [isLoading]);
 
-  //console.log(parseInt(data[2]._hex));
+  const [linked, setLinked] = useState(null);
+  const [linkedAddress, setAddress] = useState(null);
 
-  if (isAuthenticated && user) {
+  useEffect(() => {
+
+    console.log(linked)
+    if (user !== null) {
+      console.log(linked)
+
+      if (user.attributes.linkedAccount === account) {
+        console.log(linked)
+        setLinked(true)
+
+      } else if (user.attributes.linkedAccount !== account) {
+        setAddress(true)
+      }
+
+    }
+  });
+
+
+
+  if (isAuthenticated && user && linked) {
 
     let options = {
       abi: ABI.abi,
@@ -127,31 +166,78 @@ function App() {
 
     };
 
+
+
+
+
     // candidateEffect used to ensure data has loaded before trying to display it
     // left side of && has to be populated for the right side to be executed
 
     return (
-      <Router>
-        <Container maxW='100%'>
-          <Sidebar>
 
-            <Route exact path="/" component={SignUp} />
+      <Container maxW='100%'>
+        <Sidebar>
 
-
-
-            <Route path="/elections" component={Login} />
+          <Switch>
+            <Route exact path="/" />
 
 
 
-          </Sidebar>
-        </Container>
-      </Router>
+
+            <Route path="/elections" >
+              {candidateEffect && <GetCandidate data={candidateEffect} />}
+            </Route>
+
+          </Switch>
+
+
+        </Sidebar>
+      </Container>
+
     );
-  } else if (isAuthenticated && !user) {
+  } else if (isAuthenticated && user && linked === null) {
     return (
       <Container align={"center"} spacing={4}>
-        <Heading>Please verify your email to access your account</Heading>
+        <Heading>Please link your account</Heading>
+        <Button
+          onClick={() => setUserData({
+            isLinked: true,
+            linkedAccount: account,
+          })}
+          disabled={isUserUpdating}
+        >
+          Set user data
+    </Button>
+        <Button
+          onClick={() => logout()}
+          colorScheme={'blue'}
+          bg={'green.400'}
+          rounded={'full'}
+          px={6}
+          _hover={{
+            bg: 'green.500',
+          }}>
+          Logout
+            </Button>
+        <Link href="/">yo</Link>
 
+      </Container>
+    );
+  } else if (isAuthenticated && !linked) {
+    return (
+      <Container align={"center"} spacing={15}>
+        <Incorrect></Incorrect>
+        <Button
+          onClick={() => logout()}
+          colorScheme={'green'}
+          bg={'green.400'}
+          rounded={'full'}
+          px={6}
+          _hover={{
+            bg: 'green.500',
+          }}>
+          Logout
+            </Button>
       </Container>
     );
   }
@@ -161,11 +247,39 @@ function App() {
     <Container maxW='container.xl'>
 
       <LoginButton></LoginButton>
+      <LogoutButton></LogoutButton>
       <Button onClick={() => authenticate()}>Authenticate Wallet</Button>
-      <SignUp></SignUp>
+      <Switch>
+        <Route exact path="/">
+          <Login></Login>
+        </Route>
+        <Route path="/signup">
+          <SignUp></SignUp>
+        </Route>
+        <Route path="/login">
+          <Login></Login>
+        </Route>
+      </Switch>
     </Container>
 
   );
 }
+
+// const LinkWallet = () => {
+
+//   setUserData({
+
+//     isLinked: true
+
+//   })
+
+
+
+//console.log(candidates)
+// return (
+//   <Heading>Yo</Heading>
+
+// );
+// }
 
 export default App;
