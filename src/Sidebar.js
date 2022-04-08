@@ -129,11 +129,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                 <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
             </Flex>
             {LinkItems.map((link) => (
-                <Link to={link}>
-                    <NavItem link={link.path} key={link.name} icon={link.icon}>
-                        {link.name}
-                    </NavItem>
-                </Link>
+
+                <NavItem link={link.path} key={link.name} icon={link.icon}>
+                    {link.name}
+                </NavItem>
+
             ))}
         </Box>
     );

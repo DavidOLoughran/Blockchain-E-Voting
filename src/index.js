@@ -8,13 +8,18 @@ import { MoralisProvider } from "react-moralis";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+
+
 const theme = extendTheme({
   config: {
     initialColorMode: "dark",
   },
 });
 
-const appId = "6nHDMUsCh9pJ7SVJ4KQwbRKBDHeHiT2A1baUYJMU";
+console.log(process.env.REACT_APP_MORALIS_APP_ID)
+console.log(process.env.REACT_APP_CONTRACT_ADDRESS)
+
+const appId = process.env.REACT_APP_MORALIS_APP_ID;
 const serverUrl = "https://3fxisly2dx7q.usemoralis.com:2053/server";
 
 
@@ -29,9 +34,11 @@ ReactDOM.render(
         redirectUri={window.location.origin}
       >
         <MoralisProvider appId={appId} serverUrl={serverUrl}>
+
           <ChakraProvider theme={theme}>
             <App />
           </ChakraProvider>
+
         </MoralisProvider>
       </Auth0Provider>
     </BrowserRouter>

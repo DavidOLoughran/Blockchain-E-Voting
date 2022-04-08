@@ -21,6 +21,7 @@ contract Election is BaseRelayRecipient{
         uint256 voteCount;
         string name;
         string info;
+        string image;
     }
 
     struct Elections {
@@ -85,37 +86,33 @@ contract Election is BaseRelayRecipient{
         returns (
             string[] memory,
             uint256[] memory,
+            string[] memory,
             string[] memory
         )
     {
-        string[] memory names = new string[](
-            elections[_elecID].candidates.length
-        );
-        uint256[] memory voteCounts = new uint256[](
-            elections[_elecID].candidates.length
-        );
-        string[] memory info = new string[](
-            elections[_elecID].candidates.length
-        );
+        string[] memory names = new string[](elections[_elecID].candidates.length);
+        uint256[] memory voteCounts = new uint256[](elections[_elecID].candidates.length);
+        string[] memory info = new string[](elections[_elecID].candidates.length);
+        string[] memory image = new string[](elections[_elecID].candidates.length);
 
-        for (uint256 i = 0; i < elections[_elecID].candidates.length; i++) {
+        for(uint i = 0; i < elections[_elecID].candidates.length; i++){
             names[i] = elections[_elecID].candidates[i].name;
             voteCounts[i] = elections[_elecID].candidates[i].voteCount;
             info[i] = elections[_elecID].candidates[i].info;
+            image[i] = elections[_elecID].candidates[i].image;
+            
         }
-        return (names, voteCounts, info);
+        return (names, voteCounts, info, image);
     }
 
-    function createElection(string[] memory _name, string[] memory _info)
-        public
-    {
+    function createElection(string[] memory _name, string[] memory _info, string[] memory _image) public {
         elections.push();
-
+        
         Elections storage e = elections[electionCount];
         e.elecID = electionCount;
 
-        for (uint256 i = 0; i < _name.length; i++) {
-            e.candidates.push(Candidate(1, 0, _name[i], _info[i]));
+        for(uint256 i=0; i < _name.length; i++) {
+            e.candidates.push(Candidate(1, 0, _name[i], _info[i], _image[i]));
         }
 
         electionCount++;

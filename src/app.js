@@ -8,8 +8,12 @@ import LogoutButton from "./LogoutButton";
 import SignUp from "./SignUp";
 import Nav from "./Sidebar";
 import DisplayCandidates from "./DisplayCandidates";
+import CreateElection from "./CreateElection";
+//import IdentityVerification from "./IdentityVerification";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BrowserRouter as Router, Route, Switch, useLocation } from "react-router-dom";
+
+
 
 import {
   Flex,
@@ -65,15 +69,16 @@ function App() {
 
   const { web3 } = useMoralis();
 
-  console.log(account)
+  //console.log(account)
 
   // const unsubscribe = Moralis.Web3.onAccountsChanged(function (accounts) {
 
   // });
+  //require('dotenv').config();
 
 
-
-
+  //const { REACT_APP_MORALIS_SPEEDY_NODES_KEY } = process.env;
+  //console.log(process.env.REACT_APP_BICONOMY_API_KEY_MUMBAI)
 
   const location = useLocation();
 
@@ -94,11 +99,12 @@ function App() {
     }
   }, [isWeb3Enabled, isWeb3EnableLoading]);
 
-  const ABI = require("./Election.json");
+  const ABI = require("./contracts/Election.json");
+  //console.log(ABI.abi)
 
   const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
     abi: ABI.abi,
-    contractAddress: "0xD652a606953d87A58657da31F670Ba522Fd4F2D1",
+    contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
     functionName: "getCandidates",
     params: {
       _elecID: 0,
@@ -137,12 +143,12 @@ function App() {
 
   useEffect(() => {
 
-    console.log(linked)
+    //console.log(linked)
     if (user !== null) {
-      console.log(linked)
+      //console.log(linked)
 
       if (user.attributes.linkedAccount === account) {
-        console.log(linked)
+        //console.log(linked)
         setLinked(true)
 
       } else if (user.attributes.linkedAccount !== account) {
@@ -156,19 +162,6 @@ function App() {
 
   if (isAuthenticated && user && linked) {
 
-    let options = {
-      abi: ABI.abi,
-      contractAddress: "0xD652a606953d87A58657da31F670Ba522Fd4F2D1",
-      functionName: "getCandidates",
-      params: {
-        _elecID: 0,
-      },
-
-    };
-
-
-
-
 
     // candidateEffect used to ensure data has loaded before trying to display it
     // left side of && has to be populated for the right side to be executed
@@ -181,12 +174,14 @@ function App() {
           <Switch>
             <Route exact path="/" />
 
-
-
-
             <Route path="/elections" >
               {candidateEffect && <GetCandidate data={candidateEffect} />}
             </Route>
+
+            <Route path="/create_election" >
+              <CreateElection></CreateElection>
+            </Route>
+
 
           </Switch>
 
@@ -208,7 +203,7 @@ function App() {
         >
           Set user data
     </Button>
-        <Button
+        {!linked && <Button
           onClick={() => logout()}
           colorScheme={'blue'}
           bg={'green.400'}
@@ -218,7 +213,7 @@ function App() {
             bg: 'green.500',
           }}>
           Logout
-            </Button>
+            </Button>}
         <Link href="/">yo</Link>
 
       </Container>
