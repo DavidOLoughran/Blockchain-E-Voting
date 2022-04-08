@@ -18,14 +18,48 @@ import {
 } from "react-moralis";
 import { useState, useEffect } from "react";
 
+import { Biconomy } from "@biconomy/mexa";
+import Web3 from "web3";
+
+let biconomy, web3;
+
+
 
 const DisplayCandidates = ({ candidate }) => {
 
-    const ABI = require("./Election.json");
+    const ABI = require("./contracts/Election.json");
+
+    const {
+        account,
+    } = useMoralis();
+
+    const [isBiconomy, setBiconomy] = useState(false);
+
+
+    useEffect(() => {
+
+        biconomy = new Biconomy(new Web3.providers.HttpProvider("https://speedy-nodes-nyc.moralis.io/7868a0eb0155bdd9cb961c76/polygon/mumbai"), {
+            walletProvider: window.ethereum,
+            apiKey: process.env.REACT_APP_BICONOMY_API_KEY_MUMBAI,
+            debug: true
+        });
+
+        web3 = new Web3(biconomy);
+
+        biconomy.onEvent(biconomy.READY, () => {
+            console.log("Biconomy Successful")
+            setBiconomy(true)
+
+
+        }).onEvent(biconomy.ERROR, (error, message) => {
+            // Handle error while initializing mexa
+            console.log("Failed to initalize")
+        });
+    }, []);
 
     const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
         abi: ABI.abi,
-        contractAddress: "0xD652a606953d87A58657da31F670Ba522Fd4F2D1",
+        contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
         functionName: "createVote",
         params: {
             _elecID: 0,
@@ -36,6 +70,35 @@ const DisplayCandidates = ({ candidate }) => {
 
     const castVote = () => {
         fetch()
+    }
+
+    const castVote1 = () => {
+        let contract = new web3.eth.Contract(
+            ABI.abi,
+            process.env.REACT_APP_CONTRACT_ADDRESS
+        );
+
+        let userAddress = account;
+
+        let names = ["John", "Mary"]
+        let info = ["Johns info", "Mary info"]
+
+        console.log(account)
+
+        let tx = contract.methods.createVote(0, candidate.candID).send({
+            from: '0x34e43E2c4865c98c1F9cD97387B92933EB452D3D',
+            signatureType: biconomy.EIP712_SIGN,
+            //optionally you can add other options like gasLimit
+        });
+
+        tx.on("transactionHash", function (hash) {
+            console.log(`Transaction hash is ${hash}`);
+            //showInfoMessage(`Transaction sent. Waiting for confirmation ..`);
+        }).once("confirmation", function (confirmationNumber, receipt) {
+            console.log(receipt);
+            console.log(receipt.transactionHash);
+            //do something with transaction hash
+        });
     }
     return (
 
@@ -56,7 +119,7 @@ const DisplayCandidates = ({ candidate }) => {
                         objectFit="cover"
                         boxSize="100%"
                         src={
-                            'https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ'
+                            'https://i.ibb.co/WzkJ6j2/Bavid-Bobrick.png'
                         }
                     />
                 </Flex>
@@ -91,7 +154,7 @@ const DisplayCandidates = ({ candidate }) => {
                         justifyContent={'space-between'}
                         alignItems={'center'}>
 
-                        <Button
+                        {isBiconomy && <Button
 
                             flex={1}
                             fontSize={'sm'}
@@ -107,9 +170,9 @@ const DisplayCandidates = ({ candidate }) => {
                             _focus={{
                                 bg: 'blue.500',
                             }}
-                            onClick={() => castVote()}>
+                            onClick={() => castVote1()}>
                             Cast Vote
-            </Button>
+            </Button>}
                     </Stack>
                 </Stack>
             </Stack>
@@ -141,7 +204,7 @@ const DisplayCandidates = ({ candidate }) => {
 //     ViewOffIcon,
 // } from "@chakra-ui/react";
 
-// const DisplayCandidates = ({ candidates }) => {
+// const DisplayCandidates = ({candidates}) => {
 //     console.log(candidates)
 //     return (
 //         <Container>
