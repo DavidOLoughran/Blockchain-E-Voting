@@ -11,7 +11,7 @@ contract Election is BaseRelayRecipient{
     uint256 public voteID = 0;
 
     struct Vote {
-        uint256 voteID;
+        string voteID;
         bool hasVoted;
         uint256 candidateID;
     }
@@ -22,9 +22,11 @@ contract Election is BaseRelayRecipient{
         string name;
         string info;
         string image;
+        
     }
 
     struct Elections {
+        string elecName;
         uint256 elecID;
         Candidate[] candidates;
         Vote[] voters;
@@ -80,16 +82,14 @@ contract Election is BaseRelayRecipient{
 
     //Return arrays of candidate details
 
-    function getCandidates(uint256 _elecID)
-        public
-        view
-        returns (
-            string[] memory,
-            uint256[] memory,
-            string[] memory,
-            string[] memory
-        )
-    {
+    function compareStrings(string memory a, string memory b) public view returns (bool) {
+        return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
+    }
+
+    //Return arrays of candidate details
+
+    function getCandidates(uint256 _elecID) public view returns (string[] memory, uint256[] memory, string[] memory, string[] memory) {
+
         string[] memory names = new string[](elections[_elecID].candidates.length);
         uint256[] memory voteCounts = new uint256[](elections[_elecID].candidates.length);
         string[] memory info = new string[](elections[_elecID].candidates.length);
@@ -105,11 +105,66 @@ contract Election is BaseRelayRecipient{
         return (names, voteCounts, info, image);
     }
 
-    function createElection(string[] memory _name, string[] memory _info, string[] memory _image) public {
+    function getElection(uint256 _elecID, string memory _voteID) public view returns (uint256[] memory, string[] memory) {
+
+        uint256 numElections = getElectionCount(_voteID);
+
+        uint256[] memory elecIDs = new uint256[](numElections);
+        string[] memory elecNames = new string[](numElections);
+
+        uint256 count = 0;
+
+        for(uint i = 0; i < elections.length; i++){
+            
+            for(uint256 j=0; j < elections[i].voters.length; j++) {
+            //elections[_elecID].voters[i]
+
+                if(compareStrings(elections[i].voters[j].voteID, _voteID)){
+                    elecIDs[count] = i;
+                    elecNames[count] = elections[i].elecName;
+                    count++;
+                } 
+        }
+        }
+            
+        
+        
+        return (elecIDs, elecNames);
+    }
+
+    function getElectionCount(string memory _voteID) public view returns (uint256) {
+
+        //uint256[] memory elecIDs = new uint256[](elections.length);
+        //string[] memory elecNames = new string[](elections.length);
+
+        uint256 count = 0;
+
+        for(uint i = 0; i < elections.length; i++){
+            
+            for(uint256 j=0; j < elections[i].voters.length; j++) {
+            //elections[_elecID].voters[i]
+
+                if(compareStrings(elections[i].voters[j].voteID, _voteID)){
+
+                    count++;
+                } 
+        }
+        }
+            
+        
+        
+        return (count);
+    }
+
+    
+
+
+    function createElection(string memory _elecName, string[] memory _name, string[] memory _info, string[] memory _image) public {
         elections.push();
         
         Elections storage e = elections[electionCount];
         e.elecID = electionCount;
+        e.elecName = _elecName;
 
         for(uint256 i=0; i < _name.length; i++) {
             e.candidates.push(Candidate(1, 0, _name[i], _info[i], _image[i]));
@@ -118,29 +173,30 @@ contract Election is BaseRelayRecipient{
         electionCount++;
     }
 
-    function createVote(uint256 _elecID, uint256 _candID) public {
-        elections[_elecID].candidates[_candID].voteCount++;
+    function createVote(uint256 _elecID, uint256 _candID, string memory _voterID) public {
 
-        elections[_elecID].voters.push(Vote(1, true, _candID));
+        require(hasVoted(_elecID, _voterID) == false, "Already voted in this election");
+        
+        elections[_elecID].candidates[_candID].voteCount++; 
+
+        elections[_elecID].voters.push(Vote(_voterID, true, _candID));    
     }
 
-    function hasVoted(uint256 _elecID, uint256 _voteID)
-        public
-        view
-        returns (bool)
-    {
-        bool valid = false;
+    function hasVoted(uint256 _elecID, string memory _voteID) public view returns (bool) {
 
-        for (uint256 i = 0; i < elections[_elecID].voters.length; i++) {
+        bool valid = false;
+        
+        for(uint256 i=0; i < elections[_elecID].voters.length; i++) {
             //elections[_elecID].voters[i]
 
-            if (elections[_elecID].voters[i].voteID == _voteID) {
+            if(compareStrings(elections[_elecID].voters[i].voteID, _voteID)){
                 valid = true;
-            }
+            } 
         }
 
         return valid;
     }
 
-    //function
+    //function 
 }
+

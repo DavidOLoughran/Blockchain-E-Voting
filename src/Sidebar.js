@@ -80,6 +80,7 @@ export default function Sidebar({
 
 
 
+
     return (
         <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
             <SidebarContent
@@ -174,6 +175,8 @@ const NavItem = ({ link, icon, children, ...rest }: NavItemProps) => {
     );
 };
 
+
+
 interface MobileProps extends FlexProps {
     onOpen: () => void;
 }
@@ -186,8 +189,12 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         user,
         isWeb3Enabled,
         isWeb3EnableLoading,
+        Moralis,
         enableWeb3,
     } = useMoralis();
+
+    const users = Moralis.User.current();
+    console.log(users.id)
     return (
         <Flex
             ml={{ base: 0, md: 60 }}
@@ -237,7 +244,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                                     alignItems="flex-start"
                                     spacing="1px"
                                     ml="2">
-                                    <Text fontSize="sm">{user.attributes.username}</Text>
+                                    <Text fontSize="sm">{JSON.stringify(user.id)}</Text>
                                     <Text fontSize="xs" color="gray.600">
                                         Unverified
                   </Text>

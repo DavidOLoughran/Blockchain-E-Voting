@@ -102,7 +102,7 @@ function App() {
   }, [isWeb3Enabled, isWeb3EnableLoading]);
 
   const ABI = require("./contracts/Election.json");
-  //console.log(ABI.abi)
+
 
   const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
     abi: ABI.abi,
@@ -168,11 +168,14 @@ function App() {
     // candidateEffect used to ensure data has loaded before trying to display it
     // left side of && has to be populated for the right side to be executed
 
+    console.log(user.attributes.name)
+
     return (
 
       <Container maxW='100%'>
-        <Sidebar>
 
+        <Sidebar>
+          <Heading>{user.attributes.objectId}</Heading>
           <Switch>
             <Route exact path="/" />
 
