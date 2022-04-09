@@ -32,7 +32,7 @@ let biconomy, web3
 
 export default function CardWithIllustration() {
 
-
+    const [elecName, setElecName] = useState("");
     const [names, setNames] = useState("");
     const [info, setInfo] = useState("");
     const [image, setImage] = useState("");
@@ -75,7 +75,7 @@ export default function CardWithIllustration() {
 
 
 
-    const createElection = () => {
+    const createElection = (elecNameAdd) => {
 
 
         let contract = new web3.eth.Contract(
@@ -90,7 +90,7 @@ export default function CardWithIllustration() {
 
         console.log(account)
 
-        let tx = contract.methods.createElection(candidateNames, candidateInfo, candidateImage).send({
+        let tx = contract.methods.createElection(elecNameAdd, candidateNames, candidateInfo, candidateImage).send({
             from: '0x34e43E2c4865c98c1F9cD97387B92933EB452D3D',
             signatureType: biconomy.EIP712_SIGN,
             //optionally you can add other options like gasLimit
@@ -139,8 +139,8 @@ export default function CardWithIllustration() {
                     <Input
                         type={'text'}
                         placeholder={'eg: John Smith'}
-                        value={names}
-                        onChange={(event) => setNames(event.currentTarget.value)}
+                        value={elecName}
+                        onChange={(event) => setElecName(event.currentTarget.value)}
                         color={useColorModeValue('gray.800', 'gray.200')}
                         bg={useColorModeValue('gray.100', 'gray.600')}
                         rounded={'full'}
@@ -252,7 +252,7 @@ export default function CardWithIllustration() {
             </Button>}
 
                 {isBiconomy && <Button
-                    onClick={() => createElection()}
+                    onClick={() => createElection(elecName)}
                     bg={'blue.400'}
                     rounded={'full'}
                     color={'white'}
