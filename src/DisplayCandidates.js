@@ -21,16 +21,22 @@ import { useState, useEffect } from "react";
 import { Biconomy } from "@biconomy/mexa";
 import Web3 from "web3";
 
+import { notification } from "antd";
+
 let biconomy, web3;
 
 
 
-const DisplayCandidates = ({ candidate }) => {
+const DisplayCandidates = ({ candidate, id }) => {
+
+    console.log(id)
 
     const ABI = require("./contracts/Election.json");
 
     const {
         account,
+        user,
+        Moralis,
     } = useMoralis();
 
     const [isBiconomy, setBiconomy] = useState(false);
@@ -84,9 +90,11 @@ const DisplayCandidates = ({ candidate }) => {
         let info = ["Johns info", "Mary info"]
 
         console.log(account)
+        const users = Moralis.User.current();
+        console.log(users.id)
 
-        let tx = contract.methods.createVote(0, candidate.candID).send({
-            from: '0x34e43E2c4865c98c1F9cD97387B92933EB452D3D',
+        let tx = contract.methods.createVote(id, candidate.candID, users.id).send({
+            from: account,
             signatureType: biconomy.EIP712_SIGN,
             //optionally you can add other options like gasLimit
         });
@@ -95,9 +103,13 @@ const DisplayCandidates = ({ candidate }) => {
             console.log(`Transaction hash is ${hash}`);
             //showInfoMessage(`Transaction sent. Waiting for confirmation ..`);
         }).once("confirmation", function (confirmationNumber, receipt) {
-            console.log(receipt);
+            console.log("success");
             console.log(receipt.transactionHash);
-            //do something with transaction hash
+            notification.success({
+                message: "Congratulations",
+                description:
+                    "Your vote has been confirmed",
+            });
         });
     }
     return (

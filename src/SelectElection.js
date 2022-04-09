@@ -151,7 +151,7 @@ export default function CardWithIllustration() {
             </Stack>}
 
 
-            {candidateEffect && <GetCandidate data={candidateEffect} />}
+            {candidateEffect && <GetCandidate data={candidateEffect} id={names} />}
 
 
         </Flex>

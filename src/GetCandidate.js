@@ -14,9 +14,10 @@ import {
 
 import DisplayCandidates from "./DisplayCandidates";
 
-const GetCandidate = ({ data }) => {
+const GetCandidate = ({ data, id }) => {
 
     let candidates = [{}];
+    console.log(id)
 
 
     console.log(data)
@@ -44,7 +45,7 @@ const GetCandidate = ({ data }) => {
 
         <Container maxW='container.md'>
             {candidates.map(candidate => (
-                <DisplayCandidates candidate={candidate} />
+                <DisplayCandidates candidate={candidate} id={id} />
 
 
 
