@@ -8,7 +8,9 @@ import LogoutButton from "./LogoutButton";
 import SignUp from "./SignUp";
 import Nav from "./Sidebar";
 import DisplayCandidates from "./DisplayCandidates";
+import SelectElection from "./SelectElection";
 import CreateElection from "./CreateElection";
+import HomePage from "./HomePage";
 //import IdentityVerification from "./IdentityVerification";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BrowserRouter as Router, Route, Switch, useLocation } from "react-router-dom";
@@ -175,7 +177,8 @@ function App() {
             <Route exact path="/" />
 
             <Route path="/elections" >
-              {candidateEffect && <GetCandidate data={candidateEffect} />}
+
+              <SelectElection></SelectElection>
             </Route>
 
             <Route path="/create_election" >
@@ -241,12 +244,10 @@ function App() {
 
     <Container maxW='container.xl'>
 
-      <LoginButton></LoginButton>
-      <LogoutButton></LogoutButton>
-      <Button onClick={() => authenticate()}>Authenticate Wallet</Button>
+
       <Switch>
         <Route exact path="/">
-          <Login></Login>
+          <HomePage></HomePage>
         </Route>
         <Route path="/signup">
           <SignUp></SignUp>
