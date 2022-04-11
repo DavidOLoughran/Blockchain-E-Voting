@@ -73,7 +73,7 @@ function App() {
 
   const location = useLocation();
 
-  //console.log(location)
+
 
   useEffect(() => {
     if (!isWeb3Enabled && !isWeb3EnableLoading) {
@@ -85,7 +85,7 @@ function App() {
     }
   }, [isWeb3Enabled, isWeb3EnableLoading]);
 
-  const ABI = require("./contracts/Election.json");
+
 
 
   const [linked, setLinked] = useState(null);
@@ -108,6 +108,36 @@ function App() {
     }
   });
 
+  const ABI = require("./contracts/Election.json");
+
+  //console.log(location)
+  const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
+    abi: ABI.abi,
+    contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
+    functionName: "getElection",
+    params: {
+      _elecID: 0,
+      _voteID: account,
+
+    },
+  });
+
+  const [electionEffect, setElections] = useState(null);
+
+  useEffect(() => {
+    if (!isFetching && !isLoading) {
+      fetch();
+      //console.log("Fetching data");
+    } else if (data !== null) {
+      console.log(data)
+
+      console.log(data)
+
+      setElections(data)
+
+    }
+  }, [isLoading]);
+
 
   if (isAuthenticated && user && linked) {
 
@@ -122,15 +152,16 @@ function App() {
       <Container maxW='100%'>
 
         <Sidebar>
-          <Heading>{user.attributes.objectId}</Heading>
+
           <Switch>
             <Route exact path="/">
+              <Heading>{user.attributes.objectId}</Heading>
               <HomePage></HomePage>
             </Route>
 
             <Route path="/elections" >
 
-              <SelectElection></SelectElection>
+              {electionEffect && <SelectElection elec={electionEffect}></SelectElection>}
             </Route>
 
             <Route path="/create_election" >

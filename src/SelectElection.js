@@ -8,6 +8,15 @@ import {
     Icon,
     useColorModeValue,
     createIcon,
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer
 } from '@chakra-ui/react';
 
 import { useState, useEffect } from "react";
@@ -32,12 +41,33 @@ let biconomy, web3
 
 
 
-export default function CardWithIllustration() {
+const SelectElection = ({ elec }) => {
 
 
     const [names, setNames] = useState("");
     const [elecName, setElecName] = useState("");
     const [elecID, setElecID] = useState(null);
+
+    let elections = [{}];
+
+    for (let i = 0; i < elec[0].length; i++) {
+
+        let election = { id: 0, name: "Default" };
+        //console.log(i)
+        console.log(elec[0][i])
+        election.id = parseInt(elec[0][i]._hex)
+        election.name = elec[1][i]
+
+
+        election.candID = i;
+        console.log(election)
+        elections.push(election)
+
+        //console.log(candidates)
+        //console.log(candidate)
+    }
+
+    elections.shift();
 
 
     const ABI = require("./contracts/Election.json");
@@ -71,6 +101,12 @@ export default function CardWithIllustration() {
     const castVote = () => {
         console.log("Fetching")
         setElecID(true)
+        fetch()
+    }
+
+    const selectElection = (id) => {
+        console.log("Fetching")
+        setNames(id)
         fetch()
     }
 
@@ -159,6 +195,43 @@ export default function CardWithIllustration() {
                     _focus={{ bg: 'blue.500' }}>
                     Search
             </Button>
+                <Text fontSize={'lg'} color={'gray.500'}>
+                    Or select one of your active elections below and click search
+            </Text>
+                <TableContainer>
+                    <Table variant='simple'>
+                        <TableCaption>Your active elections</TableCaption>
+                        <Thead>
+                            <Tr>
+                                <Th>Election ID</Th>
+                                <Th>Election Name</Th>
+                                <Th>
+                                    View Election
+                                </Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {elections.map(election => (
+                                <Tr>
+                                    <Td>{election.id}</Td>
+                                    <Td>{election.name}</Td>
+                                    <Td><Button
+                                        onClick={() => selectElection(election.id)}
+                                        bg={'blue.400'}
+                                        rounded={'full'}
+                                        color={'white'}
+                                        flex={'1 0 auto'}
+                                        _hover={{ bg: 'blue.500' }}
+                                        _focus={{ bg: 'blue.500' }}>
+                                        select
+                                    </Button></Td>
+                                </Tr>
+                            ))}
+
+                        </Tbody>
+
+                    </Table>
+                </TableContainer>
 
 
 
@@ -176,3 +249,4 @@ export default function CardWithIllustration() {
 
 
 
+export default SelectElection;

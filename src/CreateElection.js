@@ -103,7 +103,7 @@ export default function CardWithIllustration() {
 
         console.log(account)
 
-        let tx = contract.methods.createElection(elecNameAdd, 1, 2, candidateNames, candidateInfo, candidateImage).send({
+        let tx = contract.methods.createElection(elecNameAdd, start, end, candidateNames, candidateInfo, candidateImage).send({
             from: account,
             signatureType: biconomy.EIP712_SIGN,
             //optionally you can add other options like gasLimit

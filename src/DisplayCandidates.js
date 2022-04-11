@@ -95,7 +95,7 @@ const DisplayCandidates = ({ candidate, id }) => {
         const users = Moralis.User.current();
         console.log(users.id)
 
-        let tx = contract.methods.createVote(id, candidate.candID, users.id).send({
+        let tx = contract.methods.createVote(id, candidate.candID, account).send({
             from: account,
             signatureType: biconomy.EIP712_SIGN,
             //optionally you can add other options like gasLimit
@@ -110,7 +110,7 @@ const DisplayCandidates = ({ candidate, id }) => {
             console.log(receipt.transactionHash);
             alert("Your vote for " + candidate.name + " has been confirmed by the blockchain!")
         }).on("error", function (error) {
-            alert("You have already voted in this election")
+            alert("This election is no longer live or you have already voted")
         });
     }
     return (
