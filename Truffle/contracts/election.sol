@@ -27,6 +27,8 @@ contract Election is BaseRelayRecipient{
 
     struct Elections {
         string elecName;
+        uint256 startTime;
+        uint256 endTime;
         uint256 elecID;
         Candidate[] candidates;
         Vote[] voters;
@@ -86,14 +88,28 @@ contract Election is BaseRelayRecipient{
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
     }
 
+    function isElectionLive(uint256 _elecID) public view returns (bool) {
+
+        bool isLive = false;
+
+        uint256 lastUpdated = block.timestamp;
+
+        if (lastUpdated >= elections[_elecID].startTime && lastUpdated <= elections[_elecID].endTime) {
+            isLive = true;
+        } 
+
+        return (isLive);
+    }
+
     //Return arrays of candidate details
 
-    function getCandidates(uint256 _elecID) public view returns (string[] memory, uint256[] memory, string[] memory, string[] memory) {
+    function getCandidates(uint256 _elecID) public view returns (string[] memory, uint256[] memory, string[] memory, string[] memory, string memory) {
 
         string[] memory names = new string[](elections[_elecID].candidates.length);
         uint256[] memory voteCounts = new uint256[](elections[_elecID].candidates.length);
         string[] memory info = new string[](elections[_elecID].candidates.length);
         string[] memory image = new string[](elections[_elecID].candidates.length);
+        string memory elecName = elections[_elecID].elecName;
 
         for(uint i = 0; i < elections[_elecID].candidates.length; i++){
             names[i] = elections[_elecID].candidates[i].name;
@@ -102,7 +118,7 @@ contract Election is BaseRelayRecipient{
             image[i] = elections[_elecID].candidates[i].image;
             
         }
-        return (names, voteCounts, info, image);
+        return (names, voteCounts, info, image, elecName);
     }
 
     function getElection(uint256 _elecID, string memory _voteID) public view returns (uint256[] memory, string[] memory) {
@@ -159,12 +175,14 @@ contract Election is BaseRelayRecipient{
     
 
 
-    function createElection(string memory _elecName, string[] memory _name, string[] memory _info, string[] memory _image) public {
+    function createElection(string memory _elecName, uint256 _startDate, uint256 _endDate, string[] memory _name, string[] memory _info, string[] memory _image) public {
         elections.push();
         
         Elections storage e = elections[electionCount];
         e.elecID = electionCount;
         e.elecName = _elecName;
+        e.startTime = _startDate;
+        e.endTime = _endDate;
 
         for(uint256 i=0; i < _name.length; i++) {
             e.candidates.push(Candidate(1, 0, _name[i], _info[i], _image[i]));
@@ -175,7 +193,7 @@ contract Election is BaseRelayRecipient{
 
     function createVote(uint256 _elecID, uint256 _candID, string memory _voterID) public {
 
-        require(hasVoted(_elecID, _voterID) == false, "Already voted in this election");
+        require(hasVoted(_elecID, _voterID) == false && isElectionLive(_elecID), "Already Voted or Election is not live");
         
         elections[_elecID].candidates[_candID].voteCount++; 
 

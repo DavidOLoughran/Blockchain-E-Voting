@@ -10,14 +10,16 @@ import {
     Stack,
     Text,
     useColorModeValue,
+    Box,
 } from '@chakra-ui/react';
 
 import DisplayCandidates from "./DisplayCandidates";
 
-const GetCandidate = ({ data, id }) => {
+const GetCandidate = ({ data, id, elecName }) => {
 
     let candidates = [{}];
     console.log(id)
+    console.log(elecName)
 
 
     console.log(data)
@@ -44,6 +46,22 @@ const GetCandidate = ({ data, id }) => {
     return (
 
         <Container maxW='container.md'>
+            <Stack
+                as={Box}
+                textAlign={'center'}
+                spacing={{ base: 8, md: 14 }}
+            >
+                <Heading
+                    fontWeight={600}
+                    fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
+                    lineHeight={'110%'}>
+
+
+                    <Text as={'span'} color={'black.400'}>
+                        {elecName}
+                    </Text>
+                </Heading>
+            </Stack>
             {candidates.map(candidate => (
                 <DisplayCandidates candidate={candidate} id={id} />
 

@@ -8,7 +8,49 @@ import {
     Button,
     Icon,
     IconProps,
+    Box,
+    SimpleGrid,
 } from '@chakra-ui/react';
+
+import {
+    FiHome,
+    FiTrendingUp,
+    FiCompass,
+    FiStar,
+    FiShield,
+    FiSettings,
+    FiUserPlus,
+    FiUsers,
+    FiMenu,
+    FiBell,
+    FiChevronDown,
+} from 'react-icons/fi';
+
+interface FeatureProps {
+    title: string;
+    text: string;
+    icon: ReactElement;
+}
+
+const Feature = ({ title, text, icon }: FeatureProps) => {
+    return (
+        <Stack>
+            <Flex
+                w={16}
+                h={16}
+                align={'center'}
+                justify={'center'}
+                color={'black'}
+                rounded={'full'}
+                bg={'gray.100'}
+                mb={1}>
+                {icon}
+            </Flex>
+            <Text fontWeight={600}>{title}</Text>
+            <Text color={'gray.600'}>{text}</Text>
+        </Stack>
+    );
+};
 
 export default function CallToActionWithIllustration() {
     return (
@@ -50,7 +92,33 @@ export default function CallToActionWithIllustration() {
 
                 </Flex>
             </Stack>
+            <Box p={4}>
+                <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
+                    <Feature
+
+                        title={'Elections'}
+                        text={
+                            'Blockchain E-Voting allows users to create and participate in private elections where the creator can select which users are allowed to participate'
+                        }
+                    />
+                    <Feature
+
+                        title={'Polls'}
+                        text={
+                            'Blockchain E-Voting allows users to create and participate in public polls. When creating a poll you can select an option to require identity verification to drastically decrease the number illegitmate participants'
+                        }
+                    />
+                    <Feature
+
+                        title={'Identity Verification'}
+                        text={
+                            'Some elections or polls may require you to have verified your identity in order to participate.'
+                        }
+                    />
+                </SimpleGrid>
+            </Box>
         </Container>
+
     );
 }
 

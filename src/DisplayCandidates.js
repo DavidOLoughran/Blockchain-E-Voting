@@ -76,6 +76,8 @@ const DisplayCandidates = ({ candidate, id }) => {
 
     const castVote = () => {
         fetch()
+
+
     }
 
     const castVote1 = () => {
@@ -102,14 +104,13 @@ const DisplayCandidates = ({ candidate, id }) => {
         tx.on("transactionHash", function (hash) {
             console.log(`Transaction hash is ${hash}`);
             //showInfoMessage(`Transaction sent. Waiting for confirmation ..`);
+            alert("Vote submitted. Waiting for confirmation ..")
         }).once("confirmation", function (confirmationNumber, receipt) {
             console.log("success");
             console.log(receipt.transactionHash);
-            notification.success({
-                message: "Congratulations",
-                description:
-                    "Your vote has been confirmed",
-            });
+            alert("Your vote for " + candidate.name + " has been confirmed by the blockchain!")
+        }).on("error", function (error) {
+            alert("You have already voted in this election")
         });
     }
     return (

@@ -260,12 +260,12 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                             <MenuItem>Profile</MenuItem>
                             <MenuItem>Link Metamask</MenuItem>
                             <MenuDivider />
-                            <MenuItem onClick={() => logout()}>Sign out</MenuItem>
+                            <MenuItem href="/" onClick={() => logout()}>Sign out</MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>
             </HStack>
-        </Flex>
+        </Flex >
     );
 };
 

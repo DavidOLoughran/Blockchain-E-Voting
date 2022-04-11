@@ -71,23 +71,7 @@ function App() {
 
   const { web3 } = useMoralis();
 
-  //console.log(account)
-
-  // const unsubscribe = Moralis.Web3.onAccountsChanged(function (accounts) {
-
-  // });
-  //require('dotenv').config();
-
-
-  //const { REACT_APP_MORALIS_SPEEDY_NODES_KEY } = process.env;
-  //console.log(process.env.REACT_APP_BICONOMY_API_KEY_MUMBAI)
-
   const location = useLocation();
-
-  const { auth0user } = useAuth0();
-
-  const Auth0Auth = useAuth0().isAuthenticated;
-  const Auth0Loading = useAuth0.isLoading;
 
   //console.log(location)
 
@@ -103,42 +87,6 @@ function App() {
 
   const ABI = require("./contracts/Election.json");
 
-
-  const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
-    abi: ABI.abi,
-    contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
-    functionName: "getCandidates",
-    params: {
-      _elecID: 0,
-
-    },
-  });
-
-  let candidates = [{ name: "Default Candidate", voteCount: 0 }, { name: "Default Candidate Test", voteCount: 0 }];
-  let candidate = { name: "Default", voteCount: 0, info: "Deafault info" };
-
-  const [candidateEffect, setCandidates] = useState(null);
-
-
-  //Fetching data from the Polygon blockcahin
-  //useEffect used to avoid render errors while waiting for data to be retrieved
-  let lol = false
-
-  //console.log(user.attributes.isLinked)
-
-  useEffect(() => {
-    if (!isFetching && !isLoading) {
-      fetch();
-      //console.log("Fetching data");
-    } else if (data !== null) {
-      console.log(data[0][1])
-
-      console.log(data)
-
-      setCandidates(data)
-
-    }
-  }, [isLoading]);
 
   const [linked, setLinked] = useState(null);
   const [linkedAddress, setAddress] = useState(null);
@@ -161,7 +109,6 @@ function App() {
   });
 
 
-
   if (isAuthenticated && user && linked) {
 
 
@@ -177,7 +124,9 @@ function App() {
         <Sidebar>
           <Heading>{user.attributes.objectId}</Heading>
           <Switch>
-            <Route exact path="/" />
+            <Route exact path="/">
+              <HomePage></HomePage>
+            </Route>
 
             <Route path="/elections" >
 

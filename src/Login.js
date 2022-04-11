@@ -93,7 +93,7 @@ const Login = () => {
                 </Button>
                         </Stack>
                         <Stack pt={6}>
-                            <Text align={"center"}>Not registered?</Text>
+                            <Link href="/signup" align={"center"}>Not registered?</Link>
                         </Stack>
                     </Stack>
                 </Box>

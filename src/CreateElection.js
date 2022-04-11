@@ -14,6 +14,10 @@ import { useState, useEffect } from "react";
 import { Biconomy } from "@biconomy/mexa";
 import Web3 from "web3";
 
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 import {
     useMoralis,
     useWeb3ExecuteFunction,
@@ -38,6 +42,12 @@ export default function CardWithIllustration() {
     const [image, setImage] = useState("");
     const [candidates, setCandidate] = useState("");
     const [isBiconomy, setBiconomy] = useState(false);
+
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
+    console.log(parseInt(startDate.getTime() / 1000))
+    console.log(parseInt(startDate.getTime() / 1000))
 
     useEffect(() => {
         setCandidate(candidateNames)
@@ -83,6 +93,9 @@ export default function CardWithIllustration() {
             process.env.REACT_APP_CONTRACT_ADDRESS
         );
 
+        let start = parseInt(startDate.getTime() / 1000)
+        let end = parseInt(endDate.getTime() / 1000)
+
         let userAddress = account;
 
         let names = ["John", "Mary"]
@@ -90,8 +103,8 @@ export default function CardWithIllustration() {
 
         console.log(account)
 
-        let tx = contract.methods.createElection(elecNameAdd, candidateNames, candidateInfo, candidateImage).send({
-            from: '0x34e43E2c4865c98c1F9cD97387B92933EB452D3D',
+        let tx = contract.methods.createElection(elecNameAdd, 1, 2, candidateNames, candidateInfo, candidateImage).send({
+            from: account,
             signatureType: biconomy.EIP712_SIGN,
             //optionally you can add other options like gasLimit
         });
@@ -99,10 +112,11 @@ export default function CardWithIllustration() {
         tx.on("transactionHash", function (hash) {
             console.log(`Transaction hash is ${hash}`);
             //showInfoMessage(`Transaction sent. Waiting for confirmation ..`);
+            alert("Election submitted. Waiting for confirmation .. ")
         }).once("confirmation", function (confirmationNumber, receipt) {
             console.log(receipt);
             console.log(receipt.transactionHash);
-            //do something with transaction hash
+            alert("Election has succesfully been created")
         });
     }
 
@@ -133,6 +147,7 @@ export default function CardWithIllustration() {
 
                 </Stack>
                 <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'}>
+
                     <Text fontSize={'md'} color={'black.500'}>
                         Election Name:
                     </Text>
@@ -150,12 +165,29 @@ export default function CardWithIllustration() {
                             outline: 'none',
                         }}
                     />
+
+                </Stack>
+                <Text fontSize={'lg'} color={'gray.500'}>
+                    Please select the start and end date/time down below
+            </Text>
+                <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'}>
+
+
+                    <Text fontSize={'md'} color={'black.500'}>
+                        Start:
+                    </Text>
+                    <DatePicker showTimeSelect dateFormat="Pp" selected={startDate} onChange={(date) => setStartDate(date)} />
+                    <Text fontSize={'md'} color={'black.500'}>
+                        End:
+                    </Text>
+                    <DatePicker showTimeSelect dateFormat="Pp" selected={endDate} onChange={(date) => setEndDate(date)} />
                 </Stack>
 
 
+
                 <Stack align={'center'} spacing={2}>
+
                     <Heading
-                        textTransform={'uppercase'}
                         fontSize={'2xl'}
                         color={useColorModeValue('gray.800', 'gray.200')}>
                         Add Candidates

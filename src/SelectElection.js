@@ -17,6 +17,7 @@ import Web3 from "web3";
 import {
     useMoralis,
     useWeb3ExecuteFunction,
+    useWeb3Contract,
     MoralisProvider,
 } from "react-moralis";
 import GetCandidate from './GetCandidate';
@@ -35,6 +36,7 @@ export default function CardWithIllustration() {
 
 
     const [names, setNames] = useState("");
+    const [elecName, setElecName] = useState("");
     const [elecID, setElecID] = useState(null);
 
 
@@ -50,6 +52,16 @@ export default function CardWithIllustration() {
 
         },
     });
+
+    // const { data, error, runContractFunction, isFetching, isLoading } =
+    //     useWeb3Contract({
+    //         abi: usdcEthPoolAbi,
+    //         contractAddress: usdcEthPoolAddress,
+    //         functionName: "observe",
+    //         params: {
+    //             secondsAgos: [0, 10],
+    //         },
+    //     });
 
     let candidates = [{ name: "Default Candidate", voteCount: 0 }, { name: "Default Candidate Test", voteCount: 0 }];
     let candidate = { name: "Default", voteCount: 0, info: "Deafault info" };
@@ -70,11 +82,14 @@ export default function CardWithIllustration() {
 
     useEffect(() => {
         if (data !== null) {
-            console.log(data[0][1])
+            console.log(data[4])
 
             console.log(data)
 
+
+            setElecName(data[4])
             setCandidates(data)
+
             //console.log("Fetching data");
 
 
@@ -151,7 +166,7 @@ export default function CardWithIllustration() {
             </Stack>}
 
 
-            {candidateEffect && <GetCandidate data={candidateEffect} id={names} />}
+            {candidateEffect && <GetCandidate data={candidateEffect} id={names} elecName={elecName} />}
 
 
         </Flex>
