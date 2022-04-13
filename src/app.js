@@ -3,16 +3,15 @@ import "./app.css";
 import Login from "./Login";
 import Incorrect from "./incorrectAddress";
 import CheckingAccount from "./checkingAccount";
-import LoginButton from "./Auth0Reg";
-import LogoutButton from "./LogoutButton";
 import SignUp from "./SignUp";
 import Nav from "./Sidebar";
 import DisplayCandidates from "./DisplayCandidates";
 import SelectElection from "./SelectElection";
 import CreateElection from "./CreateElection";
+import PopularPolls from "./PopularPolls";
 import HomePage from "./HomePage";
 //import IdentityVerification from "./IdentityVerification";
-import { useAuth0 } from "@auth0/auth0-react";
+
 import { BrowserRouter as Router, Route, Switch, useLocation } from "react-router-dom";
 
 
@@ -46,7 +45,7 @@ import {
 } from "react-moralis";
 import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
-import GetCandidate from "./GetCandidate";
+
 
 
 
@@ -89,7 +88,7 @@ function App() {
 
 
   const [linked, setLinked] = useState(null);
-  const [linkedAddress, setAddress] = useState(null);
+  const [linkedAddress, setAddress] = useState(false);
 
   useEffect(() => {
 
@@ -101,7 +100,7 @@ function App() {
         //console.log(linked)
         setLinked(true)
 
-      } else if (user.attributes.linkedAccount !== account) {
+      } else if (user.attributes.linkedAccount === null && user.attributes.isLinked === null) {
         setAddress(true)
       }
 
@@ -138,6 +137,10 @@ function App() {
     }
   }, [isLoading]);
 
+  // const users = Moralis.User.current();
+  // let poo = null;
+  // console.log(users.attributes.linkedAccount)
+
 
   if (isAuthenticated && user && linked) {
 
@@ -157,6 +160,11 @@ function App() {
             <Route exact path="/">
               <Heading>{user.attributes.objectId}</Heading>
               <HomePage></HomePage>
+            </Route>
+
+            <Route path="/all_polls" >
+
+              {electionEffect && <PopularPolls elec={electionEffect}></PopularPolls>}
             </Route>
 
             <Route path="/elections" >
@@ -179,8 +187,9 @@ function App() {
   } else if (isAuthenticated && user && linked === null) {
     return (
       <Container align={"center"} spacing={4}>
-        <Heading>Please link your account</Heading>
-        <Button
+        {linkedAddress && <Incorrect></Incorrect>}
+
+        {linkedAddress && <Button
           onClick={() => setUserData({
             isLinked: true,
             linkedAccount: account,
@@ -188,7 +197,7 @@ function App() {
           disabled={isUserUpdating}
         >
           Set user data
-    </Button>
+    </Button>}
         {!linked && <Button
           onClick={() => logout()}
           colorScheme={'blue'}

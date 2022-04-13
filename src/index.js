@@ -5,7 +5,7 @@ import App from "./App.js";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { MoralisProvider } from "react-moralis";
-import { Auth0Provider } from "@auth0/auth0-react";
+
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 
@@ -28,19 +28,15 @@ ReactDOM.render(
 
   <React.StrictMode>
     <BrowserRouter>
-      <Auth0Provider
-        domain="blockchain-evoting.eu.auth0.com"
-        clientId="ltBxUsMWtP3sDKoey2TLu9DSnOJOZfby"
-        redirectUri={window.location.origin}
-      >
-        <MoralisProvider appId={appId} serverUrl={serverUrl}>
 
-          <ChakraProvider theme={theme}>
-            <App />
-          </ChakraProvider>
+      <MoralisProvider appId={appId} serverUrl={serverUrl}>
 
-        </MoralisProvider>
-      </Auth0Provider>
+        <ChakraProvider theme={theme}>
+          <App />
+        </ChakraProvider>
+
+      </MoralisProvider>
+
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

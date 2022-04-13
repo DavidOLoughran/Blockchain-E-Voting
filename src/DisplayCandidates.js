@@ -14,6 +14,7 @@ import {
 import {
     useMoralis,
     useWeb3ExecuteFunction,
+    useWeb3Contract,
     MoralisProvider,
 } from "react-moralis";
 import { useState, useEffect } from "react";
@@ -63,7 +64,7 @@ const DisplayCandidates = ({ candidate, id }) => {
         });
     }, []);
 
-    const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
+    const { data, error, fetch, isFetching, isLoading } = useWeb3Contract({
         abi: ABI.abi,
         contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
         functionName: "createVote",

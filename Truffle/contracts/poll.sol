@@ -2,7 +2,7 @@ pragma solidity ^0.8.2;
 
 import "@opengsn/contracts/src/BaseRelayRecipient.sol";
 
-contract Election is BaseRelayRecipient{
+contract Poll is BaseRelayRecipient{
     //Vote[] public votes;
     address public owner;
 
@@ -213,7 +213,7 @@ contract Election is BaseRelayRecipient{
     
 
 
-    function createElection(string memory _elecName, uint256 _startDate, uint256 _endDate, string[] memory _name, string[] memory _info, string[] memory _image) public {
+    function createElection(string memory _elecName, uint256 _startDate, uint256 _endDate, string[] memory _name, string[] memory _info, string[] memory _image, string[] memory _voters) public {
         elections.push();
         
         Elections storage e = elections[electionCount];
@@ -224,6 +224,10 @@ contract Election is BaseRelayRecipient{
 
         for(uint256 i=0; i < _name.length; i++) {
             e.candidates.push(Candidate(1, 0, _name[i], _info[i], _image[i]));
+        }
+
+        for(uint256 i=0; i < _voters.length; i++) {
+            e.voters.push(Vote(_voters[i], false, 0));
         }
 
         electionCount++;
@@ -245,7 +249,7 @@ contract Election is BaseRelayRecipient{
         for(uint256 i=0; i < elections[_elecID].voters.length; i++) {
             //elections[_elecID].voters[i]
 
-            if(compareStrings(elections[_elecID].voters[i].voteID, _voteID)){
+            if(compareStrings(elections[_elecID].voters[i].voteID, _voteID) && elections[_elecID].voters[i].hasVoted){
                 valid = true;
             } 
         }

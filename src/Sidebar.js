@@ -57,7 +57,7 @@ const LinkItems: Array<LinkItemProps> = [
     { name: 'Verify Identity', icon: FiShield, path: '/verify' },
     { name: 'Elections', icon: FiUsers, path: '/elections' },
     { name: 'Create Election', icon: FiUserPlus, path: '/create_election' },
-    { name: 'Settings', icon: FiSettings, path: '/settings' },
+    { name: 'All Polls', icon: FiSettings, path: '/all_polls' },
 ];
 
 function HomeButton() {
@@ -193,8 +193,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         enableWeb3,
     } = useMoralis();
 
-    const users = Moralis.User.current();
-    console.log(users.id)
+
     return (
         <Flex
             ml={{ base: 0, md: 60 }}

@@ -49,6 +49,8 @@ export default function CardWithIllustration() {
     console.log(parseInt(startDate.getTime() / 1000))
     console.log(parseInt(startDate.getTime() / 1000))
 
+
+
     useEffect(() => {
         setCandidate(candidateNames)
         console.log(candidates)
