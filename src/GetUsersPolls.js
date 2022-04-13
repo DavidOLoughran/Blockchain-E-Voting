@@ -8,7 +8,7 @@ import Nav from "./Sidebar";
 import DisplayCandidates from "./DisplayCandidates";
 import SelectElection from "./SelectElection";
 import CreateElection from "./CreateElection";
-import PopularPolls from "./PopularPolls";
+import SelectPoll from "./SelectPoll";
 import HomePage from "./HomePage";
 //import IdentityVerification from "./IdentityVerification";
 
@@ -53,7 +53,7 @@ import Web3 from "web3";
 
 
 
-function GetPopularPolls() {
+function GetUsersPolls() {
     const {
         authenticate,
         isAuthenticated,
@@ -176,7 +176,7 @@ function GetPopularPolls() {
         <Container maxW='container.xl'>
 
 
-            {electionEffect && <PopularPolls elec={electionEffect}></PopularPolls>}
+            {electionEffect && <SelectPoll elec={electionEffect}></SelectPoll>}
         </Container>
 
     );
@@ -199,4 +199,4 @@ function GetPopularPolls() {
 // );
 // }
 
-export default GetPopularPolls;
+export default GetUsersPolls;

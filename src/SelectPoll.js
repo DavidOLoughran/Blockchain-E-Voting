@@ -41,7 +41,7 @@ let biconomy, web3
 
 
 
-const PopularPolls = ({ elec }) => {
+const SelectPoll = ({ elec }) => {
 
 
     const [names, setNames] = useState("");
@@ -50,32 +50,24 @@ const PopularPolls = ({ elec }) => {
 
     let elections = [{}];
 
-    console.log(elec)
+    for (let i = 0; i < elec[0].length; i++) {
 
-    for (let i = 0; i < elec[2].length; i++) {
-
-        let election = { id: 0, name: "Default", numVoters: 0 };
+        let election = { id: 0, name: "Default" };
         //console.log(i)
-        console.log(elec[2][i])
-        election.id = i;
-        election.name = elec[2][i]
+        console.log(elec[0][i])
+        election.id = parseInt(elec[0][i]._hex)
+        election.name = elec[1][i]
 
 
-        election.numVoters = parseInt(elec[3][i]._hex);
-        //console.log(election)
+        election.candID = i;
+        console.log(election)
         elections.push(election)
 
         //console.log(candidates)
         //console.log(candidate)
     }
 
-    console.log(elections)
-
     elections.shift();
-
-    elections.sort(function (a, b) { return b.numVoters - a.numVoters })
-
-    console.log(elections)
 
 
     const ABI = require("./contracts/Poll.json");
@@ -169,14 +161,30 @@ const PopularPolls = ({ elec }) => {
                         textTransform={'uppercase'}
                         fontSize={'3xl'}
                         color={colorHeading}>
-                        All Polls
+                        select Poll
             </Heading>
 
                 </Stack>
-                <Text fontSize={'lg'} color={'gray.500'}>
-                    Here you find a list of all public polls you can participate in
-            </Text>
+                <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'}>
+                    <Text fontSize={'md'} color={'black.500'}>
+                        Election ID:
+                    </Text>
+                    <Input
+                        type={'number'}
+                        placeholder={'2'}
+                        value={names}
+                        onChange={(event) => setNames(event.currentTarget.value)}
+                        color={colorHeading}
+                        bg={colorInput}
+                        rounded={'full'}
+                        border={0}
+                        _focus={{
+                            //bg: useColorModeValue('gray.200', 'gray.800'),
+                            outline: 'none',
+                        }}
+                    />
 
+                </Stack>
                 <Button
                     onClick={() => castVote()}
                     bg={'blue.400'}
@@ -185,14 +193,14 @@ const PopularPolls = ({ elec }) => {
                     flex={'1 0 auto'}
                     _hover={{ bg: 'blue.500' }}
                     _focus={{ bg: 'blue.500' }}>
-                    View
+                    Search
             </Button>
                 <Text fontSize={'lg'} color={'gray.500'}>
-                    Double click select or click select then search to view poll
+                    Or select one of your active polls below and click search
             </Text>
                 <TableContainer>
                     <Table variant='simple'>
-                        <TableCaption>All available polls</TableCaption>
+                        <TableCaption>Your active elections</TableCaption>
                         <Thead>
                             <Tr>
                                 <Th>Election ID</Th>
@@ -207,8 +215,6 @@ const PopularPolls = ({ elec }) => {
                                 <Tr>
                                     <Td>{election.id}</Td>
                                     <Td>{election.name}</Td>
-                                    <Td>{election.numVoters}</Td>
-
                                     <Td><Button
                                         onClick={() => selectElection(election.id)}
                                         bg={'blue.400'}
@@ -243,4 +249,4 @@ const PopularPolls = ({ elec }) => {
 
 
 
-export default PopularPolls;
+export default SelectPoll;

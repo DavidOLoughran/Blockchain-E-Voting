@@ -7,10 +7,13 @@ import SignUp from "./SignUp";
 import Nav from "./Sidebar";
 import DisplayCandidates from "./DisplayCandidates";
 import SelectElection from "./SelectElection";
+import SelectPoll from "./SelectPoll";
 import CreateElection from "./CreateElection";
 import CreatePoll from "./CreatePoll";
 import PopularPolls from "./PopularPolls";
 import GetPopularPolls from "./getPopularPolls";
+
+import GetUsersPolls from "./GetUsersPolls";
 import HomePage from "./HomePage";
 //import IdentityVerification from "./IdentityVerification";
 
@@ -221,7 +224,7 @@ function App() {
 
             <Route path="/polls" >
 
-              {electionEffect && <SelectElection elec={electionEffect} ></SelectElection>}
+              {electionEffect && <GetUsersPolls></GetUsersPolls>}
             </Route>
 
             <Route path="/create_election" >
