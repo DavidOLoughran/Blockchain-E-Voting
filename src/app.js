@@ -305,6 +305,21 @@ function App() {
         <Route path="/login">
           <Login></Login>
         </Route>
+        <Route path="/elections">
+          <HomePage></HomePage>
+        </Route>
+        <Route path="/polls">
+          <HomePage></HomePage>
+        </Route>
+        <Route path="/create_poll">
+          <HomePage></HomePage>
+        </Route>
+        <Route path="/create_election">
+          <HomePage></HomePage>
+        </Route>
+        <Route path="/all_polls">
+          <HomePage></HomePage>
+        </Route>
       </Switch>
     </Container>
 

@@ -26,12 +26,13 @@ const GetCandidate = ({ data, id, elecName }) => {
 
     for (let i = 0; i < data[0].length; i++) {
 
-        let candidate = { name: "Default", voteCount: 0, info: "Deafault info", candID: 0 };
+        let candidate = { name: "Default", voteCount: 0, info: "Deafault info", candID: 0, image: "Default" };
         //console.log(i)
         console.log(data[0][i])
         candidate.name = data[0][i]
         candidate.voteCount = parseInt(data[1][i]._hex)
         candidate.info = data[2][i]
+        candidate.image = data[3][i]
         candidate.candID = i;
         console.log(candidate)
         candidates.push(candidate)

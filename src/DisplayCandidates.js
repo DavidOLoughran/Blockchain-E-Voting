@@ -134,7 +134,7 @@ const DisplayCandidates = ({ candidate, id }) => {
                         objectFit="cover"
                         boxSize="100%"
                         src={
-                            'https://i.ibb.co/WzkJ6j2/Bavid-Bobrick.png'
+                            candidate.image
                         }
                     />
                 </Flex>

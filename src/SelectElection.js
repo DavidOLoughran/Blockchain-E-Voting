@@ -94,7 +94,7 @@ const SelectElection = ({ elec }) => {
     //     });
 
     let candidates = [{ name: "Default Candidate", voteCount: 0 }, { name: "Default Candidate Test", voteCount: 0 }];
-    let candidate = { name: "Default", voteCount: 0, info: "Deafault info" };
+    let candidate = { name: "Default", voteCount: 0, info: "Deafault info", image: "Default" };
 
     const [candidateEffect, setCandidates] = useState(null);
 
