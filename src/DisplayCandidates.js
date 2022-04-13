@@ -31,6 +31,7 @@ let biconomy, web3;
 const DisplayCandidates = ({ candidate, id }) => {
 
     console.log(id)
+    console.log(candidate)
 
     const ABI = require("./contracts/Election.json");
 

@@ -213,7 +213,7 @@ contract Election is BaseRelayRecipient{
     
 
 
-    function createElection(string memory _elecName, uint256 _startDate, uint256 _endDate, string[] memory _name, string[] memory _info, string[] memory _image) public {
+    function createElection(string memory _elecName, uint256 _startDate, uint256 _endDate, string[] memory _name, string[] memory _info, string[] memory _image, string[] memory _voters) public {
         elections.push();
         
         Elections storage e = elections[electionCount];
@@ -226,6 +226,10 @@ contract Election is BaseRelayRecipient{
             e.candidates.push(Candidate(1, 0, _name[i], _info[i], _image[i]));
         }
 
+        for(uint256 i=0; i < _voters.length; i++) {
+            e.voters.push(Vote(_voters[i], false, 0));
+        }
+
         electionCount++;
     }
 
@@ -235,7 +239,15 @@ contract Election is BaseRelayRecipient{
         
         elections[_elecID].candidates[_candID].voteCount++; 
 
-        elections[_elecID].voters.push(Vote(_voterID, true, _candID));    
+        for(uint256 i=0; i < elections[_elecID].voters.length; i++) {
+            //elections[_elecID].voters[i]
+
+                if(compareStrings(elections[_elecID].voters[i].voteID, _voterID)){
+
+                    elections[_elecID].voters[i].hasVoted = true;
+                    elections[_elecID].voters[i].candidateID = _candID;
+                } 
+        }    
     }
 
     function hasVoted(uint256 _elecID, string memory _voteID) public view returns (bool) {
@@ -245,7 +257,7 @@ contract Election is BaseRelayRecipient{
         for(uint256 i=0; i < elections[_elecID].voters.length; i++) {
             //elections[_elecID].voters[i]
 
-            if(compareStrings(elections[_elecID].voters[i].voteID, _voteID)){
+            if(compareStrings(elections[_elecID].voters[i].voteID, _voteID) && elections[_elecID].voters[i].hasVoted){
                 valid = true;
             } 
         }

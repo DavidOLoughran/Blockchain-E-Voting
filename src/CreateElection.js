@@ -28,6 +28,7 @@ import {
 let candidateNames = [];
 let candidateInfo = [];
 let candidateImage = [];
+let allParticipants = [];
 
 let biconomy, web3
 
@@ -40,6 +41,7 @@ export default function CardWithIllustration() {
     const [names, setNames] = useState("");
     const [info, setInfo] = useState("");
     const [image, setImage] = useState("");
+    const [participants, setParticipants] = useState("");
     const [candidates, setCandidate] = useState("");
     const [isBiconomy, setBiconomy] = useState(false);
 
@@ -105,7 +107,7 @@ export default function CardWithIllustration() {
 
         console.log(account)
 
-        let tx = contract.methods.createElection(elecNameAdd, start, end, candidateNames, candidateInfo, candidateImage).send({
+        let tx = contract.methods.createElection(elecNameAdd, start, end, candidateNames, candidateInfo, candidateImage, allParticipants).send({
             from: account,
             signatureType: biconomy.EIP712_SIGN,
             //optionally you can add other options like gasLimit
@@ -268,6 +270,36 @@ export default function CardWithIllustration() {
                     _focus={{ bg: 'blue.500' }}>
                     Add
             </Button>
+                <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'}>
+                    <Text justify={'center'} fontSize={'md'} color={'black.500'}>
+                        Candidates Image URL:
+                    </Text>
+                    <Input
+                        type={'text'}
+                        placeholder={'john@doe.net'}
+                        value={participants}
+                        onChange={(event) => setParticipants(event.currentTarget.value)}
+                        color={useColorModeValue('gray.800', 'gray.200')}
+                        bg={useColorModeValue('gray.100', 'gray.600')}
+                        rounded={'full'}
+                        border={0}
+                        _focus={{
+                            bg: useColorModeValue('gray.200', 'gray.800'),
+                            outline: 'none',
+                        }}
+                    />
+
+                </Stack>
+                <Button
+                    onClick={() => addParticipants(participants)}
+                    bg={'blue.400'}
+                    rounded={'full'}
+                    color={'white'}
+                    flex={'1 0 auto'}
+                    _hover={{ bg: 'blue.500' }}
+                    _focus={{ bg: 'blue.500' }}>
+                    Add
+            </Button>
                 <Heading
 
                     fontSize={'3xl'}
@@ -309,6 +341,14 @@ const addCandidate = (names, info, image) => {
     candidateNames.push(names)
     candidateInfo.push(info)
     candidateImage.push(image)
+
+}
+
+const addParticipants = (participants) => {
+
+    allParticipants.push(participants.toLowerCase())
+    console.log(allParticipants)
+
 
 }
 
