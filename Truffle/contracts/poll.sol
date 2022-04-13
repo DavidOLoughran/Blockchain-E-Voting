@@ -213,7 +213,7 @@ contract Poll is BaseRelayRecipient{
     
 
 
-    function createElection(string memory _elecName, uint256 _startDate, uint256 _endDate, string[] memory _name, string[] memory _info, string[] memory _image, string[] memory _voters) public {
+    function createElection(string memory _elecName, uint256 _startDate, uint256 _endDate, string[] memory _name, string[] memory _info, string[] memory _image) public {
         elections.push();
         
         Elections storage e = elections[electionCount];
@@ -226,9 +226,6 @@ contract Poll is BaseRelayRecipient{
             e.candidates.push(Candidate(1, 0, _name[i], _info[i], _image[i]));
         }
 
-        for(uint256 i=0; i < _voters.length; i++) {
-            e.voters.push(Vote(_voters[i], false, 0));
-        }
 
         electionCount++;
     }

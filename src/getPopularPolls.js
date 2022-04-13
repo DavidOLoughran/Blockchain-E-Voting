@@ -1,252 +1,202 @@
+import logo from "./logo.svg";
+import "./app.css";
+import Login from "./Login";
+import Incorrect from "./incorrectAddress";
+import CheckingAccount from "./checkingAccount";
+import SignUp from "./SignUp";
+import Nav from "./Sidebar";
+import DisplayCandidates from "./DisplayCandidates";
+import SelectElection from "./SelectElection";
+import CreateElection from "./CreateElection";
+import PopularPolls from "./PopularPolls";
+import HomePage from "./HomePage";
+//import IdentityVerification from "./IdentityVerification";
+
+import { BrowserRouter as Router, Route, Switch, useLocation } from "react-router-dom";
+
+
+
 import {
     Flex,
+    Box,
+    FormControl,
+    FormLabel,
+    Input,
+    InputGroup,
+    HStack,
+    InputRightElement,
     Stack,
+    Button,
     Heading,
     Text,
-    Input,
-    Button,
-    Icon,
     useColorModeValue,
-    createIcon,
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
-    TableContainer
-} from '@chakra-ui/react';
-
-import { useState, useEffect } from "react";
-import { Biconomy } from "@biconomy/mexa";
-import Web3 from "web3";
-
+    Link,
+    Container,
+    VisuallyHidden,
+    ViewIcon,
+    extendTheme,
+    ChakraProvider,
+    ViewOffIcon,
+} from "@chakra-ui/react";
 import {
     useMoralis,
     useWeb3ExecuteFunction,
-    useWeb3Contract,
     MoralisProvider,
 } from "react-moralis";
-import GetCandidate from './GetCandidate';
+import { useState, useEffect } from "react";
+import Sidebar from "./Sidebar";
 
-
-let candidateNames = [];
-let candidateInfo = [];
-let candidateImage = [];
-
-let biconomy, web3
+import Web3 from "web3";
 
 
 
 
-const SelectElection = ({ elec }) => {
 
 
-    const [names, setNames] = useState("");
-    const [elecName, setElecName] = useState("");
-    const [elecID, setElecID] = useState(null);
+function GetPopularPolls() {
+    const {
+        authenticate,
+        isAuthenticated,
+        isAuthenticating,
+        logout,
+        user,
+        isWeb3Enabled,
+        isWeb3EnableLoading,
+        enableWeb3,
+        account,
+        setUserData,
+        isUserUpdating,
+    } = useMoralis();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
 
-    let elections = [{}];
+    //const { web3 } = useMoralis();
 
-    for (let i = 0; i < elec[0].length; i++) {
-
-        let election = { id: 0, name: "Default" };
-        //console.log(i)
-        console.log(elec[0][i])
-        election.id = parseInt(elec[0][i]._hex)
-        election.name = elec[1][i]
+    const location = useLocation();
 
 
-        election.candID = i;
-        console.log(election)
-        elections.push(election)
+    const [linked, setLinked] = useState(null);
+    const [linkedAddress, setAddress] = useState(false);
 
-        //console.log(candidates)
-        //console.log(candidate)
-    }
+    const [contract, setContract] = useState(process.env.REACT_APP_POLL_CONTRACT_ADDRESS);
 
-    elections.shift();
+    useEffect(() => {
 
+        //console.log(linked)
+        if (user !== null) {
+            //console.log(linked)
+
+            if (user.attributes.linkedAccount === account) {
+                //console.log(linked)
+                setLinked(true)
+
+            } else if (user.attributes.linkedAccount === null && user.attributes.isLinked === null) {
+                setAddress(true)
+            }
+
+        }
+    });
 
     const ABI = require("./contracts/Election.json");
-    //console.log(ABI.abi)
 
+    // const provider = new Web3.providers.HttpProvider('https://speedy-nodes-nyc.moralis.io/7868a0eb0155bdd9cb961c76/polygon/mumbai');
+    // const web3 = new Web3(provider);
+    // const myContract = new web3.eth.Contract(ABI.abi, process.env.REACT_APP_CONTRACT_ADDRESS);
+
+    // myContract.methods.getElection(0, account)
+    //   .call({ from: account })
+    //   .then(function (result) {
+    //     console.log(result)
+    //   });
+
+
+
+    //console.log(location)
     const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
         abi: ABI.abi,
-        contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
-        functionName: "get",
+        contractAddress: contract,
+        functionName: "getElection",
         params: {
-
+            _elecID: 0,
+            _voteID: account,
 
         },
     });
 
-    // const { data, error, runContractFunction, isFetching, isLoading } =
-    //     useWeb3Contract({
-    //         abi: usdcEthPoolAbi,
-    //         contractAddress: usdcEthPoolAddress,
-    //         functionName: "observe",
-    //         params: {
-    //             secondsAgos: [0, 10],
-    //         },
-    //     });
-
-    let candidates = [{ name: "Default Candidate", voteCount: 0 }, { name: "Default Candidate Test", voteCount: 0 }];
-    let candidate = { name: "Default", voteCount: 0, info: "Deafault info" };
-
-    const [candidateEffect, setCandidates] = useState(null);
-
-    const castVote = () => {
-        console.log("Fetching")
-        setElecID(true)
-        fetch()
-    }
-
-    const selectElection = (id) => {
-        console.log("Fetching")
-        setNames(id)
-        fetch()
-    }
-
-    const backToSearch = () => {
-        console.log("Going back")
-        setCandidates(null)
-        fetch()
-    }
+    const [electionEffect, setElections] = useState(null);
+    const [pollEffect, setPolls] = useState(null);
 
     useEffect(() => {
-        if (data !== null) {
-            console.log(data[4])
-
+        if (!isFetching && !isLoading && !electionEffect) {
+            fetch();
+            //console.log("Fetching data");
+        } else if (data !== null && !electionEffect) {
             console.log(data)
 
+            console.log(data)
+            setContract(process.env.REACT_APP_POLL_CONTRACT_ADDRESS)
 
-            setElecName(data[4])
-            setCandidates(data)
-
-            //console.log("Fetching data");
+            setElections(data)
 
 
         }
     }, [isLoading]);
 
-    const {
-        account,
-    } = useMoralis();
+    console.log(electionEffect)
+    console.log(pollEffect)
 
-    const colorInput = useColorModeValue('gray.100', 'gray.600');
-    const colorHeading = useColorModeValue('gray.800', 'gray.200');
-    const colorStackBackground = useColorModeValue('white', 'gray.700');
-    const colorBackground = useColorModeValue('gray.50', 'gray.800');
+    // useEffect(() => {
+    //   if (!isFetching && !isLoading && electionEffect) {
+    //     fetch();
+    //     //console.log("Fetching data");
+    //   } else if (data !== null) {
+
+    //     console.log(contract)
+    //     console.log(data)
+
+    //     console.log(data)
+
+    //     //setElections(data)
+
+    //     //setContract(process.env.REACT_APP_POLL_CONTRACT_ADDRESS)
+
+    //   }
+    // }, [isLoading]);
+
+
+
+    // const users = Moralis.User.current();
+    // let poo = null;
+    // console.log(users.attributes.linkedAccount)
+
 
 
     return (
-        <Flex
-            minH={'0vh'}
-            align={'center'}
-            justify={'center'}
-            py={12}
-            bg={colorBackground}>
-            {!candidateEffect && <Stack
-                boxShadow={'2xl'}
-                bg={colorStackBackground}
-                rounded={'xl'}
-                p={10}
-                spacing={8}
-                align={'center'}>
-                <Stack align={'center'} spacing={2}>
-                    <Heading
-                        textTransform={'uppercase'}
-                        fontSize={'3xl'}
-                        color={colorHeading}>
-                        select election
-            </Heading>
 
-                </Stack>
-                <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'}>
-                    <Text fontSize={'md'} color={'black.500'}>
-                        Election ID:
-                    </Text>
-                    <Input
-                        type={'number'}
-                        placeholder={'2'}
-                        value={names}
-                        onChange={(event) => setNames(event.currentTarget.value)}
-                        color={colorHeading}
-                        bg={colorInput}
-                        rounded={'full'}
-                        border={0}
-                        _focus={{
-                            //bg: useColorModeValue('gray.200', 'gray.800'),
-                            outline: 'none',
-                        }}
-                    />
-
-                </Stack>
-                <Button
-                    onClick={() => castVote()}
-                    bg={'blue.400'}
-                    rounded={'full'}
-                    color={'white'}
-                    flex={'1 0 auto'}
-                    _hover={{ bg: 'blue.500' }}
-                    _focus={{ bg: 'blue.500' }}>
-                    Search
-            </Button>
-                <Text fontSize={'lg'} color={'gray.500'}>
-                    Or select one of your active elections below and click search
-            </Text>
-                <TableContainer>
-                    <Table variant='simple'>
-                        <TableCaption>Your active elections</TableCaption>
-                        <Thead>
-                            <Tr>
-                                <Th>Election ID</Th>
-                                <Th>Election Name</Th>
-                                <Th>
-                                    View Election
-                                </Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {elections.map(election => (
-                                <Tr>
-                                    <Td>{election.id}</Td>
-                                    <Td>{election.name}</Td>
-                                    <Td><Button
-                                        onClick={() => selectElection(election.id)}
-                                        bg={'blue.400'}
-                                        rounded={'full'}
-                                        color={'white'}
-                                        flex={'1 0 auto'}
-                                        _hover={{ bg: 'blue.500' }}
-                                        _focus={{ bg: 'blue.500' }}>
-                                        select
-                                    </Button></Td>
-                                </Tr>
-                            ))}
-
-                        </Tbody>
-
-                    </Table>
-                </TableContainer>
+        <Container maxW='container.xl'>
 
 
+            {electionEffect && <PopularPolls elec={electionEffect}></PopularPolls>}
+        </Container>
 
-
-            </Stack>}
-
-
-            {candidateEffect && <GetCandidate data={candidateEffect} id={names} elecName={elecName} />}
-
-
-        </Flex>
     );
 }
 
+// const LinkWallet = () => {
+
+//   setUserData({
+
+//     isLinked: true
+
+//   })
 
 
 
-export default SelectElection;
+//console.log(candidates)
+// return (
+//   <Heading>Yo</Heading>
+
+// );
+// }
+
+export default GetPopularPolls;

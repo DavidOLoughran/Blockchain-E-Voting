@@ -57,6 +57,7 @@ const LinkItems: Array<LinkItemProps> = [
     { name: 'Verify Identity', icon: FiShield, path: '/verify' },
     { name: 'Elections', icon: FiUsers, path: '/elections' },
     { name: 'Create Election', icon: FiUserPlus, path: '/create_election' },
+    { name: 'Create Poll', icon: FiSettings, path: '/create_poll' },
     { name: 'All Polls', icon: FiSettings, path: '/all_polls' },
 ];
 

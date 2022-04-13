@@ -51,6 +51,8 @@ export default function CardWithIllustration() {
     console.log(parseInt(startDate.getTime() / 1000))
     console.log(parseInt(startDate.getTime() / 1000))
 
+    console.log(process.env.REACT_APP_POLL_CONTRACT_ADDRESS)
+
 
 
     useEffect(() => {
@@ -58,7 +60,7 @@ export default function CardWithIllustration() {
         console.log(candidates)
     });
 
-    const ABI = require("./contracts/Election.json");
+    const ABI = require("./contracts/Poll.json");
 
     const {
         account,
@@ -92,9 +94,11 @@ export default function CardWithIllustration() {
     const createElection = (elecNameAdd) => {
 
 
+
+
         let contract = new web3.eth.Contract(
             ABI.abi,
-            process.env.REACT_APP_CONTRACT_ADDRESS
+            process.env.REACT_APP_POLL_CONTRACT_ADDRESS
         );
 
         let start = parseInt(startDate.getTime() / 1000)
@@ -107,7 +111,7 @@ export default function CardWithIllustration() {
 
         console.log(account)
 
-        let tx = contract.methods.createElection(elecNameAdd, start, end, candidateNames, candidateInfo, candidateImage, allParticipants).send({
+        let tx = contract.methods.createElection(elecNameAdd, start, end, candidateNames, candidateInfo, candidateImage).send({
             from: account,
             signatureType: biconomy.EIP712_SIGN,
             //optionally you can add other options like gasLimit
@@ -116,11 +120,11 @@ export default function CardWithIllustration() {
         tx.on("transactionHash", function (hash) {
             console.log(`Transaction hash is ${hash}`);
             //showInfoMessage(`Transaction sent. Waiting for confirmation ..`);
-            alert("Election submitted. Waiting for confirmation .. ")
+            alert("Poll submitted. Waiting for confirmation .. ")
         }).once("confirmation", function (confirmationNumber, receipt) {
             console.log(receipt);
             console.log(receipt.transactionHash);
-            alert("Election has succesfully been created")
+            alert("Poll has succesfully been created")
         });
     }
 
@@ -146,14 +150,14 @@ export default function CardWithIllustration() {
                         textTransform={'uppercase'}
                         fontSize={'3xl'}
                         color={useColorModeValue('gray.800', 'gray.200')}>
-                        create election
+                        create poll
             </Heading>
 
                 </Stack>
                 <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'}>
 
                     <Text fontSize={'md'} color={'black.500'}>
-                        Election Name:
+                        Poll Name:
                     </Text>
                     <Input
                         type={'text'}
@@ -270,36 +274,8 @@ export default function CardWithIllustration() {
                     _focus={{ bg: 'blue.500' }}>
                     Add
             </Button>
-                <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'}>
-                    <Text justify={'center'} fontSize={'md'} color={'black.500'}>
-                        Candidates Image URL:
-                    </Text>
-                    <Input
-                        type={'text'}
-                        placeholder={'john@doe.net'}
-                        value={participants}
-                        onChange={(event) => setParticipants(event.currentTarget.value)}
-                        color={useColorModeValue('gray.800', 'gray.200')}
-                        bg={useColorModeValue('gray.100', 'gray.600')}
-                        rounded={'full'}
-                        border={0}
-                        _focus={{
-                            bg: useColorModeValue('gray.200', 'gray.800'),
-                            outline: 'none',
-                        }}
-                    />
 
-                </Stack>
-                <Button
-                    onClick={() => addParticipants(participants)}
-                    bg={'blue.400'}
-                    rounded={'full'}
-                    color={'white'}
-                    flex={'1 0 auto'}
-                    _hover={{ bg: 'blue.500' }}
-                    _focus={{ bg: 'blue.500' }}>
-                    Add
-            </Button>
+
                 <Heading
 
                     fontSize={'3xl'}
@@ -344,13 +320,6 @@ const addCandidate = (names, info, image) => {
 
 }
 
-const addParticipants = (participants) => {
-
-    allParticipants.push(participants.toLowerCase())
-    console.log(allParticipants)
-
-
-}
 
 
 

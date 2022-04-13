@@ -8,7 +8,9 @@ import Nav from "./Sidebar";
 import DisplayCandidates from "./DisplayCandidates";
 import SelectElection from "./SelectElection";
 import CreateElection from "./CreateElection";
+import CreatePoll from "./CreatePoll";
 import PopularPolls from "./PopularPolls";
+import GetPopularPolls from "./getPopularPolls";
 import HomePage from "./HomePage";
 //import IdentityVerification from "./IdentityVerification";
 
@@ -46,6 +48,8 @@ import {
 import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 
+import Web3 from "web3";
+
 
 
 
@@ -68,7 +72,7 @@ function App() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const { web3 } = useMoralis();
+  //const { web3 } = useMoralis();
 
   const location = useLocation();
 
@@ -90,6 +94,8 @@ function App() {
   const [linked, setLinked] = useState(null);
   const [linkedAddress, setAddress] = useState(false);
 
+  const [contract, setContract] = useState(process.env.REACT_APP_CONTRACT_ADDRESS);
+
   useEffect(() => {
 
     //console.log(linked)
@@ -109,10 +115,22 @@ function App() {
 
   const ABI = require("./contracts/Election.json");
 
+  // const provider = new Web3.providers.HttpProvider('https://speedy-nodes-nyc.moralis.io/7868a0eb0155bdd9cb961c76/polygon/mumbai');
+  // const web3 = new Web3(provider);
+  // const myContract = new web3.eth.Contract(ABI.abi, process.env.REACT_APP_CONTRACT_ADDRESS);
+
+  // myContract.methods.getElection(0, account)
+  //   .call({ from: account })
+  //   .then(function (result) {
+  //     console.log(result)
+  //   });
+
+
+
   //console.log(location)
   const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
     abi: ABI.abi,
-    contractAddress: process.env.REACT_APP_CONTRACT_ADDRESS,
+    contractAddress: contract,
     functionName: "getElection",
     params: {
       _elecID: 0,
@@ -122,20 +140,46 @@ function App() {
   });
 
   const [electionEffect, setElections] = useState(null);
+  const [pollEffect, setPolls] = useState(null);
 
   useEffect(() => {
-    if (!isFetching && !isLoading) {
+    if (!isFetching && !isLoading && !electionEffect) {
       fetch();
       //console.log("Fetching data");
-    } else if (data !== null) {
+    } else if (data !== null && !electionEffect) {
       console.log(data)
 
       console.log(data)
+      setContract(process.env.REACT_APP_POLL_CONTRACT_ADDRESS)
 
       setElections(data)
 
+
     }
   }, [isLoading]);
+
+  console.log(electionEffect)
+  console.log(pollEffect)
+
+  // useEffect(() => {
+  //   if (!isFetching && !isLoading && electionEffect) {
+  //     fetch();
+  //     //console.log("Fetching data");
+  //   } else if (data !== null) {
+
+  //     console.log(contract)
+  //     console.log(data)
+
+  //     console.log(data)
+
+  //     //setElections(data)
+
+  //     //setContract(process.env.REACT_APP_POLL_CONTRACT_ADDRESS)
+
+  //   }
+  // }, [isLoading]);
+
+
 
   // const users = Moralis.User.current();
   // let poo = null;
@@ -147,6 +191,9 @@ function App() {
 
     // candidateEffect used to ensure data has loaded before trying to display it
     // left side of && has to be populated for the right side to be executed
+
+    //{electionEffect && <PopularPolls elec={electionEffect}></PopularPolls>}
+
 
     console.log(user.attributes.name)
 
@@ -164,16 +211,24 @@ function App() {
 
             <Route path="/all_polls" >
 
-              {electionEffect && <PopularPolls elec={electionEffect}></PopularPolls>}
+              <GetPopularPolls></GetPopularPolls>
             </Route>
 
             <Route path="/elections" >
 
-              {electionEffect && <SelectElection elec={electionEffect}></SelectElection>}
+              {electionEffect && <SelectElection elec={electionEffect} ></SelectElection>}
+            </Route>
+
+            <Route path="/polls" >
+
+              {electionEffect && <SelectElection elec={electionEffect} ></SelectElection>}
             </Route>
 
             <Route path="/create_election" >
               <CreateElection></CreateElection>
+            </Route>
+            <Route path="/create_poll" >
+              <CreatePoll></CreatePoll>
             </Route>
 
 
@@ -181,7 +236,7 @@ function App() {
 
 
         </Sidebar>
-      </Container>
+      </Container >
 
     );
   } else if (isAuthenticated && user && linked === null) {
