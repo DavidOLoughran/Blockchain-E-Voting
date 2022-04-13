@@ -109,7 +109,7 @@ function App() {
         //console.log(linked)
         setLinked(true)
 
-      } else if (user.attributes.linkedAccount === null && user.attributes.isLinked === null) {
+      } else if (user.attributes.linkedAccount !== null && user.attributes.isLinked === null) {
         setAddress(true)
       }
 
@@ -245,17 +245,24 @@ function App() {
   } else if (isAuthenticated && user && linked === null) {
     return (
       <Container align={"center"} spacing={4}>
-        {linkedAddress && <Incorrect></Incorrect>}
+        <Incorrect></Incorrect>
 
-        {linkedAddress && <Button
+        <Button
           onClick={() => setUserData({
             isLinked: true,
             linkedAccount: account,
           })}
           disabled={isUserUpdating}
+          colorScheme={'blue'}
+          bg={'green.400'}
+          rounded={'full'}
+          px={6}
+          _hover={{
+            bg: 'green.500',
+          }}
         >
           Set user data
-    </Button>}
+    </Button>
         {!linked && <Button
           onClick={() => logout()}
           colorScheme={'blue'}

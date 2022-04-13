@@ -41,7 +41,7 @@ export default function incorrectAddress() {
                         lineHeight={'110%'}>
 
                         <Text as={'span'} color={'orange.400'}>
-                            Check Metamask
+                            Checking Metamask
             </Text>
                     </Heading>
                     <Text fontWeight={600} color={'gray.500'}>
@@ -52,9 +52,10 @@ export default function incorrectAddress() {
                     <Text color={'gray.500'}>
 
 
-                        To access your account please make sure you are connected to the
-                        the same metamask account linked with your account.
+                        Please insure you are connected to correct metamask account before linking it to your account.
+                        
           </Text>
+          
                     <Stack
                         direction={'column'}
                         spacing={3}
@@ -62,9 +63,6 @@ export default function incorrectAddress() {
                         alignSelf={'center'}
                         position={'relative'}>
 
-                        <Button variant={'link'} colorScheme={'blue'} size={'sm'}>
-                            Learn more
-            </Button>
                     </Stack>
                 </Stack>
             </Container>
