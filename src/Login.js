@@ -26,7 +26,7 @@ import {
 import { useState, useEffect } from "react";
 
 const Login = () => {
-    const { login, user } = useMoralis();
+    const { login, authenticate, user } = useMoralis();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -91,6 +91,7 @@ const Login = () => {
                             >
                                 Login
                 </Button>
+
                         </Stack>
                         <Stack pt={6}>
                             <Link href="/signup" align={"center"}>Not registered?</Link>

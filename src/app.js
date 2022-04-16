@@ -153,7 +153,7 @@ function App() {
       console.log(data)
 
       console.log(data)
-      setContract(process.env.REACT_APP_POLL_CONTRACT_ADDRESS)
+
 
       setElections(data)
 
@@ -161,32 +161,6 @@ function App() {
     }
   }, [isLoading]);
 
-  console.log(electionEffect)
-  console.log(pollEffect)
-
-  // useEffect(() => {
-  //   if (!isFetching && !isLoading && electionEffect) {
-  //     fetch();
-  //     //console.log("Fetching data");
-  //   } else if (data !== null) {
-
-  //     console.log(contract)
-  //     console.log(data)
-
-  //     console.log(data)
-
-  //     //setElections(data)
-
-  //     //setContract(process.env.REACT_APP_POLL_CONTRACT_ADDRESS)
-
-  //   }
-  // }, [isLoading]);
-
-
-
-  // const users = Moralis.User.current();
-  // let poo = null;
-  // console.log(users.attributes.linkedAccount)
 
 
   if (isAuthenticated && user && linked) {
@@ -245,6 +219,7 @@ function App() {
   } else if (isAuthenticated && user && linked === null) {
     return (
       <Container align={"center"} spacing={4}>
+
         <Incorrect></Incorrect>
 
         <Button

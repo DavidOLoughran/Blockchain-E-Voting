@@ -28,23 +28,46 @@ import { useState, useEffect } from "react";
 const SignUp = () => {
     const { signup } = useMoralis();
 
+    // Setting responsive variables using useState
+
     const [firstname, setFirst] = useState("");
     const [lastname, setLast] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-    //var username = firstname + " " + lastname;
+    const checkPassword = () => {
+
+        // Using regex to validate entered password meets the neccesary requirements
+
+        if (password.length < 8) {
+            alert("Password must be atleast 8 characters")
+
+        } else if (password.search(/[A-Z]/) < 0) {
+            alert("Password must contain a capital letter")
+
+        } else if (password.search(/[0-9]/) < 0) {
+            alert("Password must contain a number")
+
+        } else {
+            signup(email, password, email)
+        }
+    }
+
+
 
     return (
         <Flex
-            minH={"100vh"}
+            minH={"50vh"}
             align={"center"}
             justify={"center"}
             bg={useColorModeValue("gray.50", "gray.800")}
         >
             <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                 <Stack align={"center"}>
+                    <Heading fontSize={"7xl"} textAlign={"center"}>
+                        E-Voting
+            </Heading>
                     <Heading fontSize={"4xl"} textAlign={"center"}>
                         Sign up
             </Heading>
@@ -56,33 +79,10 @@ const SignUp = () => {
                     rounded={"lg"}
                     bg={useColorModeValue("white", "gray.700")}
                     boxShadow={"lg"}
-                    p={8}
+                    p={10}
                 >
                     <Stack spacing={4}>
-                        <HStack>
-                            <Box>
-                                <FormControl id="firstName" isRequired>
-                                    <FormLabel>First Name</FormLabel>
-                                    <Input
-                                        placeholder="First name"
-                                        type="text"
-                                        value={firstname}
-                                        onChange={(event) => setFirst(event.currentTarget.value)}
-                                    />
-                                </FormControl>
-                            </Box>
-                            <Box>
-                                <FormControl id="lastName">
-                                    <FormLabel>Last Name</FormLabel>
-                                    <Input
-                                        placeholder="Last name"
-                                        type="text"
-                                        value={lastname}
-                                        onChange={(event) => setLast(event.currentTarget.value)}
-                                    />
-                                </FormControl>
-                            </Box>
-                        </HStack>
+
                         <FormControl id="email" isRequired>
                             <FormLabel>Email address</FormLabel>
                             <Input
@@ -113,7 +113,7 @@ const SignUp = () => {
                                 _hover={{
                                     bg: "blue.500",
                                 }}
-                                onClick={() => signup(email, password, email)}
+                                onClick={() => checkPassword()}
                             >
                                 Sign up
                 </Button>
@@ -125,6 +125,9 @@ const SignUp = () => {
                         </Stack>
                     </Stack>
                 </Box>
+                <Text>
+                    Note: Password must be longer than 8 characters, have a capital letter and number
+          </Text>
             </Stack>
         </Flex >
     );
