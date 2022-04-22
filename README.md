@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# Blockchain E-Voting Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Overview
 
-## Available Scripts
+This project has been designed by me for the module Applied Project and Dissertation with the intention of creating a Semi Decentralised Online Voting System built with the latest in blockchain technology. The project should allow users to register and login to their dashboard where they can create and participate in in online lections and polls.
+The main purpose of this project is to utilise blockchain technology and smart contracts as an immutable database providing tamper free voting functionality to give users the comfort of knowing their votes are secure. The project will also utilise React on the front-end to create a simplistic and intuitive web application to improve the user’s experience. 
+This project will utilise the latest in blockchain development to improve user onboarding by removing the need for users the pay gas fees when interacting with a decentralised application while combining web 2 registration/logins with secure web 3 wallet functionality as a form of two factor authentication to improve account security.
+I plan to use this project to show case the developer skills I have learned throughout my study and expand my knowledge into the world of decentralised applications. I plan to improve my skills of adapting new and evolving technologies such as utilising smart contract to combine standard frameworks with blockchain based decentralised application’s.  
 
-In the project directory, you can run:
+## Project Features
+- User can register and login to their account
+- Metamask is utilised as 2FA to verify the user (Linked after signup)
+- User can create elections secured by the Polygon Blockchain Network
+- User can participate in elections where they have been added as a voter
+- User can participate in public polls 
+- User can participate and view all polls in decending order of most popular
+- User session is remembered but if the browser is closed they will be required to re-login into to Metamask to access their account
 
-### `npm start`
+## Run locally on your machine
+1. Download / Clone this repository into a folder through the command line.<br/>
+```sh
+   git clone https://github.com/DavidOLoughran/Blockchain-E-Voting.git
+   ```
+   
+2. Download the  [Metamask Browser extension](https://metamask.io/download/) and set up a Metamask wallet.<br/>
+- The Metamask extension is needed to interact with the Polygon Blockchain Network and is utilised as 2FA authentication
+   
+3. Navigate the command line until you are inside the projects folder.<br/>
+- Once in the correct folder enter the following command to start the server on localhost:3000
+```sh
+   npm run start
+   ```
+   
+4. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Repository Overview
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Main: Th
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
