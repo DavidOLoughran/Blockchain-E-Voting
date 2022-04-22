@@ -14,6 +14,7 @@ I plan to use this project to show case the developer skills I have learned thro
 - User can participate in elections where they have been added as a voter
 - User can participate in public polls 
 - User can participate and view all polls in decending order of most popular
+- User session is remembered but if the browser is closed they will be required to re-login into to Metamask to access their account
 
 ## Run locally on your machine
 1. Download / Clone this repository into a folder through the command line.<br/>
