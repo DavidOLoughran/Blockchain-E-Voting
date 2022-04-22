@@ -93,39 +93,50 @@ export default function CardWithIllustration() {
 
     const createElection = (elecNameAdd) => {
 
+        if (!candidateNames || !elecNameAdd || !candidateNames || !candidateInfo) {
+            alert("Failed to create election, Please ensure you a filled out all neccesary details")
+
+        } else {
+
+            let contract = new web3.eth.Contract(
+                ABI.abi,
+                process.env.REACT_APP_POLL_CONTRACT_ADDRESS
+            );
+
+            let start = parseInt(startDate.getTime() / 1000)
+            let end = parseInt(endDate.getTime() / 1000)
+
+            let userAddress = account;
+
+            let names = ["John", "Mary"]
+            let info = ["Johns info", "Mary info"]
+
+            console.log(account)
+
+            let tx = contract.methods.createElection(elecNameAdd, start, end, candidateNames, candidateInfo, candidateImage).send({
+                from: account,
+                signatureType: biconomy.EIP712_SIGN,
+                //optionally you can add other options like gasLimit
+            });
+
+            tx.on("transactionHash", function (hash) {
+                console.log(`Transaction hash is ${hash}`);
+                //showInfoMessage(`Transaction sent. Waiting for confirmation ..`);
+                alert("Poll submitted. Waiting for confirmation .. ")
+            }).once("confirmation", function (confirmationNumber, receipt) {
+                console.log(receipt);
+                console.log(receipt.transactionHash);
+                alert("Poll has succesfully been created")
+            });
 
 
 
-        let contract = new web3.eth.Contract(
-            ABI.abi,
-            process.env.REACT_APP_POLL_CONTRACT_ADDRESS
-        );
+        }
 
-        let start = parseInt(startDate.getTime() / 1000)
-        let end = parseInt(endDate.getTime() / 1000)
 
-        let userAddress = account;
 
-        let names = ["John", "Mary"]
-        let info = ["Johns info", "Mary info"]
 
-        console.log(account)
 
-        let tx = contract.methods.createElection(elecNameAdd, start, end, candidateNames, candidateInfo, candidateImage).send({
-            from: account,
-            signatureType: biconomy.EIP712_SIGN,
-            //optionally you can add other options like gasLimit
-        });
-
-        tx.on("transactionHash", function (hash) {
-            console.log(`Transaction hash is ${hash}`);
-            //showInfoMessage(`Transaction sent. Waiting for confirmation ..`);
-            alert("Poll submitted. Waiting for confirmation .. ")
-        }).once("confirmation", function (confirmationNumber, receipt) {
-            console.log(receipt);
-            console.log(receipt.transactionHash);
-            alert("Poll has succesfully been created")
-        });
     }
 
 

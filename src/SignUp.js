@@ -28,7 +28,7 @@ import { useState, useEffect } from "react";
 const SignUp = () => {
     const { signup } = useMoralis();
 
-    // Setting responsive variables using useState
+    // Setting responsive variables using useState Hook
 
     const [firstname, setFirst] = useState("");
     const [lastname, setLast] = useState("");

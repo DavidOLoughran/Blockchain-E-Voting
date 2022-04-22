@@ -159,32 +159,7 @@ contract Election is BaseRelayRecipient{
         return (elecIDs, elecNames, TopElecNames, VotersCount);
     }
 
-    // function getTopPolls(string memory _voteID) public view returns (uint256[] memory, string[] memory) {
 
-    //     uint256 numElections = getElectionCount(_voteID);
-
-    //     uint256[] memory elecIDs = new uint256[](10);
-    //     string[] memory elecNames = new string[](10);
-
-    //     uint256 count = 0;
-
-    //     for(uint i = 0; i < elections.length; i++){
-            
-    //         for(uint256 j=0; j < elections[i].voters.length; j++) {
-    //         //elections[_elecID].voters[i]
-
-    //             if(elections[i].voters[j].length){
-    //                 elecIDs[count] = i;
-    //                 elecNames[count] = elections[i].elecName;
-    //                 count++;
-    //             } 
-    //     }
-    //     }
-            
-        
-        
-    //     return (elecIDs, elecNames);
-    // }
 
     function getElectionCount(string memory _voteID) public view returns (uint256) {
 
@@ -212,7 +187,9 @@ contract Election is BaseRelayRecipient{
 
     
 
-
+    //Function is responsible for initialising and populating a newly created election
+    //Storage keyword used as our newly created instance is assingned to storage outside the bounds of our funtion
+    // Populates the elections candidates and voters by looping of the given parameters
     function createElection(string memory _elecName, uint256 _startDate, uint256 _endDate, string[] memory _name, string[] memory _info, string[] memory _image, string[] memory _voters) public {
         elections.push();
         
@@ -249,6 +226,8 @@ contract Election is BaseRelayRecipient{
                 } 
         }    
     }
+
+    // Checks if the specified voter has already voted in the specified election
 
     function hasVoted(uint256 _elecID, string memory _voteID) public view returns (bool) {
 

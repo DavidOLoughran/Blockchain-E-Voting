@@ -72,6 +72,9 @@ export default function CallToActionWithIllustration() {
                 <Text color={'gray.500'} maxW={'3xl'}>
                     Blockchain E-Voting is a direct to consumer online voting system built on blockchain technology to ensure tamper proof elections and polls
           </Text>
+                <Text color={'gray.500'} maxW={'3xl'}>
+                    Please Install metamask to continue using the application. Metamask enables your browser to interact witht he blockchain and is used as 2FA for accessing your account
+          </Text>
                 <Stack spacing={6} direction={'row'}>
                     <Link href="/login">
                         <Button
@@ -84,9 +87,17 @@ export default function CallToActionWithIllustration() {
                             Get started
             </Button>
                     </Link>
-                    <Button rounded={'full'} px={6}>
-                        Learn more
+                    <Link href="https://metamask.io/download/">
+                        <Button
+
+                            rounded={'full'}
+                            px={6}
+                            colorScheme={'orange'}
+                            bg={'orange.400'}
+                            _hover={{ bg: 'orange.500' }}>
+                            Metamask
             </Button>
+                    </Link>
                 </Stack>
                 <Flex w={'full'}>
 
@@ -105,14 +116,14 @@ export default function CallToActionWithIllustration() {
 
                         title={'Polls'}
                         text={
-                            'Blockchain E-Voting allows users to create and participate in public polls. When creating a poll you can select an option to require identity verification to drastically decrease the number illegitmate participants'
+                            'Blockchain E-Voting allows users to create and participate in public polls. '
                         }
                     />
                     <Feature
 
-                        title={'Identity Verification'}
+                        title={'Metamask Verification'}
                         text={
-                            'Some elections or polls may require you to have verified your identity in order to participate.'
+                            'Metamask is utilised as two-factor authtentication while drastically reducing the number of illegitmate participants '
                         }
                     />
                 </SimpleGrid>

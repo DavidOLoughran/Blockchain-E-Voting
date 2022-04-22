@@ -58,7 +58,7 @@ export default function CardWithIllustration() {
         console.log(candidates)
     });
 
-    const ABI = require("./contracts/Election.json");
+
 
     const {
         account,
@@ -82,46 +82,50 @@ export default function CardWithIllustration() {
         }).onEvent(biconomy.ERROR, (error, message) => {
             // Handle error while initializing mexa
             console.log("Failed to initalize")
+            alert("Failed to connect to the neccesary smart contract, Please contact support if this issue persists")
         });
     }, []);
 
 
 
-
+    const ABI = require("./contracts/Election.json");
 
     const createElection = (elecNameAdd) => {
 
+        if (!candidateNames || !elecNameAdd || !candidateNames || !candidateInfo || !allParticipants) {
+            alert("Failed to create election, Please ensure you a filled out all neccesary details")
 
-        let contract = new web3.eth.Contract(
-            ABI.abi,
-            process.env.REACT_APP_CONTRACT_ADDRESS
-        );
+        } else {
+            let contract = new web3.eth.Contract(
+                ABI.abi,
+                process.env.REACT_APP_CONTRACT_ADDRESS
+            );
 
-        let start = parseInt(startDate.getTime() / 1000)
-        let end = parseInt(endDate.getTime() / 1000)
+            let start = parseInt(startDate.getTime() / 1000)
+            let end = parseInt(endDate.getTime() / 1000)
 
-        let userAddress = account;
+            console.log(account)
 
-        let names = ["John", "Mary"]
-        let info = ["Johns info", "Mary info"]
+            let tx = contract.methods.createElection(elecNameAdd, start, end, candidateNames, candidateInfo, candidateImage, allParticipants).send({
+                from: account,
+                signatureType: biconomy.EIP712_SIGN,
+                //optionally you can add other options like gasLimit
+            });
 
-        console.log(account)
+            tx.on("transactionHash", function (hash) {
+                console.log(`Transaction hash is ${hash}`);
+                //showInfoMessage(`Transaction sent. Waiting for confirmation ..`);
+                alert("Election submitted. Waiting for confirmation .. ")
+            }).once("confirmation", function (confirmationNumber, receipt) {
+                console.log(receipt);
+                console.log(receipt.transactionHash);
+                alert("Election has succesfully been created")
+            });
 
-        let tx = contract.methods.createElection(elecNameAdd, start, end, candidateNames, candidateInfo, candidateImage, allParticipants).send({
-            from: account,
-            signatureType: biconomy.EIP712_SIGN,
-            //optionally you can add other options like gasLimit
-        });
+        }
 
-        tx.on("transactionHash", function (hash) {
-            console.log(`Transaction hash is ${hash}`);
-            //showInfoMessage(`Transaction sent. Waiting for confirmation ..`);
-            alert("Election submitted. Waiting for confirmation .. ")
-        }).once("confirmation", function (confirmationNumber, receipt) {
-            console.log(receipt);
-            console.log(receipt.transactionHash);
-            alert("Election has succesfully been created")
-        });
+
+
     }
 
 
@@ -272,7 +276,7 @@ export default function CardWithIllustration() {
             </Button>
                 <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'}>
                     <Text justify={'center'} fontSize={'md'} color={'black.500'}>
-                        Candidates Image URL:
+                        Voters Address:
                     </Text>
                     <Input
                         type={'text'}

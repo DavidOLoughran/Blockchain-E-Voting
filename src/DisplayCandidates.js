@@ -88,10 +88,6 @@ const DisplayCandidates = ({ candidate, id }) => {
             process.env.REACT_APP_CONTRACT_ADDRESS
         );
 
-        let userAddress = account;
-
-        let names = ["John", "Mary"]
-        let info = ["Johns info", "Mary info"]
 
         console.log(account)
         const users = Moralis.User.current();
@@ -198,45 +194,5 @@ const DisplayCandidates = ({ candidate, id }) => {
 
 
 
-// import {
-//     Flex,
-//     Box,
-//     FormControl,
-//     FormLabel,
-//     Input,
-//     InputGroup,
-//     HStack,
-//     InputRightElement,
-//     Stack,
-//     Button,
-//     Heading,
-//     Text,
-//     useColorModeValue,
-//     Link,
-//     Container,
-//     VisuallyHidden,
-//     ViewIcon,
-//     ViewOffIcon,
-// } from "@chakra-ui/react";
-
-// const DisplayCandidates = ({candidates}) => {
-//     console.log(candidates)
-//     return (
-//         <Container>
-//             {candidates.map(candidate => (
-//                 <Container>
-//                     <Heading>{candidate.name}</Heading>
-//                     <Heading>{candidate.voteCount}</Heading>
-
-//                 </Container>
-//             ))}
-
-//         </Container>
-
-
-
-
-//     );
-// }
 
 export default DisplayCandidates;

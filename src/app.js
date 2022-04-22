@@ -71,6 +71,7 @@ function App() {
     account,
     setUserData,
     isUserUpdating,
+    Moralis,
   } = useMoralis();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -78,6 +79,28 @@ function App() {
   //const { web3 } = useMoralis();
 
   const location = useLocation();
+
+  const checkLinked = () => {
+
+    const users = Moralis.User.current();
+
+    console.log(users.attributes.isLinked)
+
+
+    if (users && users.attributes.isLinked) {
+
+      alert("Cannot link metamask account as one is already linked to this account")
+
+    } else if (users && !users.attributes.isLinked) {
+      setUserData({
+        isLinked: true,
+        linkedAccount: account,
+      })
+    }
+
+
+
+  }
 
 
 
@@ -118,19 +141,7 @@ function App() {
 
   const ABI = require("./contracts/Election.json");
 
-  // const provider = new Web3.providers.HttpProvider('https://speedy-nodes-nyc.moralis.io/7868a0eb0155bdd9cb961c76/polygon/mumbai');
-  // const web3 = new Web3(provider);
-  // const myContract = new web3.eth.Contract(ABI.abi, process.env.REACT_APP_CONTRACT_ADDRESS);
 
-  // myContract.methods.getElection(0, account)
-  //   .call({ from: account })
-  //   .then(function (result) {
-  //     console.log(result)
-  //   });
-
-
-
-  //console.log(location)
   const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
     abi: ABI.abi,
     contractAddress: contract,
@@ -223,10 +234,7 @@ function App() {
         <Incorrect></Incorrect>
 
         <Button
-          onClick={() => setUserData({
-            isLinked: true,
-            linkedAccount: account,
-          })}
+          onClick={() => checkLinked()}
           disabled={isUserUpdating}
           colorScheme={'blue'}
           bg={'green.400'}
@@ -236,7 +244,7 @@ function App() {
             bg: 'green.500',
           }}
         >
-          Set user data
+          Link Metamask
     </Button>
         {!linked && <Button
           onClick={() => logout()}
@@ -249,7 +257,7 @@ function App() {
           }}>
           Logout
             </Button>}
-        <Link href="/">yo</Link>
+
 
       </Container>
     );
