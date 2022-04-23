@@ -70,7 +70,7 @@ const SelectPoll = ({ elec }) => {
     elections.shift();
 
 
-    const ABI = require("./contracts/Poll.json");
+    const ABI = require("../contracts/Poll.json");
     //console.log(ABI.abi)
 
     const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
@@ -200,13 +200,13 @@ const SelectPoll = ({ elec }) => {
             </Text>
                 <TableContainer>
                     <Table variant='simple'>
-                        <TableCaption>Your active elections</TableCaption>
+                        <TableCaption>Your active polls</TableCaption>
                         <Thead>
                             <Tr>
-                                <Th>Election ID</Th>
-                                <Th>Election Name</Th>
+                                <Th>Poll ID</Th>
+                                <Th>Poll Name</Th>
                                 <Th>
-                                    View Election
+                                    View Poll
                                 </Th>
                             </Tr>
                         </Thead>

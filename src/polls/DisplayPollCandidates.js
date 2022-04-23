@@ -33,7 +33,7 @@ const DisplayPollCandidates = ({ candidate, id }) => {
     console.log(id)
     console.log(candidate)
 
-    const ABI = require("./contracts/Poll.json");
+    const ABI = require("../contracts/Poll.json");
 
     const {
         account,
@@ -134,7 +134,7 @@ const DisplayPollCandidates = ({ candidate, id }) => {
                         objectFit="cover"
                         boxSize="100%"
                         src={
-                            'https://i.ibb.co/WzkJ6j2/Bavid-Bobrick.png'
+                            candidate.image
                         }
                     />
                 </Flex>

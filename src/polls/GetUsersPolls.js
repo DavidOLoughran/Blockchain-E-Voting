@@ -1,15 +1,15 @@
-import logo from "./logo.svg";
-import "./app.css";
-import Login from "./Login";
-import Incorrect from "./incorrectAddress";
-import CheckingAccount from "./checkingAccount";
-import SignUp from "./SignUp";
-import Nav from "./Sidebar";
-import DisplayCandidates from "./DisplayCandidates";
-import SelectElection from "./SelectElection";
-import CreateElection from "./CreateElection";
+import logo from "../logo.svg";
+import "../app.css";
+import Login from "../Login";
+import Incorrect from "../incorrectAddress";
+import CheckingAccount from "../checkingAccount";
+import SignUp from "../SignUp";
+import Nav from "../Sidebar";
+import DisplayCandidates from "../DisplayCandidates";
+import SelectElection from "../SelectElection";
+import CreateElection from "../CreateElection";
 import SelectPoll from "./SelectPoll";
-import HomePage from "./HomePage";
+import HomePage from "../HomePage";
 //import IdentityVerification from "./IdentityVerification";
 
 import { BrowserRouter as Router, Route, Switch, useLocation } from "react-router-dom";
@@ -44,7 +44,7 @@ import {
     MoralisProvider,
 } from "react-moralis";
 import { useState, useEffect } from "react";
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 
 import Web3 from "web3";
 
@@ -97,7 +97,7 @@ function GetUsersPolls() {
         }
     });
 
-    const ABI = require("./contracts/Poll.json");
+    const ABI = require("../contracts/Poll.json");
 
     // const provider = new Web3.providers.HttpProvider('https://speedy-nodes-nyc.moralis.io/7868a0eb0155bdd9cb961c76/polygon/mumbai');
     // const web3 = new Web3(provider);

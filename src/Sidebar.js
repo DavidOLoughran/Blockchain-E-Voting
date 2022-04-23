@@ -48,6 +48,8 @@ import {
     MoralisProvider,
 } from "react-moralis";
 
+//Adapted from ChakraUI template
+
 interface LinkItemProps {
     name: string;
     icon: IconType;

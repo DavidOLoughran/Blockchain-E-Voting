@@ -60,7 +60,7 @@ export default function CardWithIllustration() {
         console.log(candidates)
     });
 
-    const ABI = require("./contracts/Poll.json");
+    const ABI = require("../contracts/Poll.json");
 
     const {
         account,

@@ -7,13 +7,13 @@ import SignUp from "./SignUp";
 import Nav from "./Sidebar";
 import DisplayCandidates from "./DisplayCandidates";
 import SelectElection from "./SelectElection";
-import SelectPoll from "./SelectPoll";
+import SelectPoll from "./polls/SelectPoll";
 import CreateElection from "./CreateElection";
-import CreatePoll from "./CreatePoll";
-import PopularPolls from "./PopularPolls";
-import GetPopularPolls from "./getPopularPolls";
+import CreatePoll from "./polls/CreatePoll";
+import PopularPolls from "./polls/PopularPolls";
+import GetPopularPolls from "./polls/getPopularPolls";
 
-import GetUsersPolls from "./GetUsersPolls";
+import GetUsersPolls from "./polls/GetUsersPolls";
 import HomePage from "./HomePage";
 //import IdentityVerification from "./IdentityVerification";
 
@@ -176,7 +176,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      //const users = Moralis.User.current();
+
 
       if (user.attributes.emailVerified) {
         setEmailV(true)
@@ -243,10 +243,28 @@ function App() {
         </Sidebar>
       </Container >
 
-    );
+    ); //Check to makesure users email has been verified
   } else if (isAuthenticated && user && linked === null && !emailVerified) {
-    logout()
-    alert("Please verify your email to access your account")
+    return (
+      <Container align={"center"} spacing={4}>
+        <Heading>Please verify your email address to continue</Heading>
+
+        <Button
+          onClick={() => logout()}
+          disabled={isUserUpdating}
+          colorScheme={'blue'}
+          bg={'green.400'}
+          rounded={'full'}
+          px={6}
+          _hover={{
+            bg: 'green.500',
+          }}
+        >
+          Logout
+    </Button>
+      </Container>
+    );
+
 
 
 
