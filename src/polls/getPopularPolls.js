@@ -5,9 +5,9 @@ import Incorrect from "../incorrectAddress";
 
 import SignUp from "../SignUp";
 
-import DisplayCandidates from "../DisplayCandidates";
-import SelectElection from "../SelectElection";
-import CreateElection from "../CreateElection";
+
+
+
 import PopularPolls from "./PopularPolls";
 import HomePage from "../HomePage";
 //import IdentityVerification from "./IdentityVerification";

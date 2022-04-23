@@ -33,7 +33,7 @@ const DisplayCandidates = ({ candidate, id }) => {
     console.log(id)
     console.log(candidate)
 
-    const ABI = require("./contracts/Election.json");
+    const ABI = require("../contracts/Election.json");
 
     const {
         account,

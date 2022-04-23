@@ -70,7 +70,7 @@ const SelectElection = ({ elec }) => {
     elections.shift();
 
 
-    const ABI = require("./contracts/Election.json");
+    const ABI = require("../contracts/Election.json");
     //console.log(ABI.abi)
 
     const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({

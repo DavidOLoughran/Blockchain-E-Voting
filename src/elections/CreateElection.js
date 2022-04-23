@@ -88,7 +88,7 @@ export default function CardWithIllustration() {
 
 
 
-    const ABI = require("./contracts/Election.json");
+    const ABI = require("../contracts/Election.json");
 
     const createElection = (elecNameAdd) => {
 
