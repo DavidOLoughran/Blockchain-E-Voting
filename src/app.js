@@ -172,6 +172,23 @@ function App() {
     }
   }, [isLoading]);
 
+  const [emailVerified, setEmailV] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      //const users = Moralis.User.current();
+
+      if (user.attributes.emailVerified) {
+        setEmailV(true)
+      }
+
+
+      console.log(emailVerified)
+
+    }
+
+  });
+
 
 
   if (isAuthenticated && user && linked) {
@@ -227,6 +244,12 @@ function App() {
       </Container >
 
     );
+  } else if (isAuthenticated && user && linked === null && !emailVerified) {
+    logout()
+    alert("Please verify your email to access your account")
+
+
+
   } else if (isAuthenticated && user && linked === null) {
     return (
       <Container align={"center"} spacing={4}>
