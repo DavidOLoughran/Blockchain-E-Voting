@@ -35,5 +35,6 @@ I plan to use this project to show case the developer skills I have learned thro
 
 ## Repository Overview
 
-- Main: Th
+- Dissertation Folder: This folder contains the pdf file of my dissertation and the video demostartion of the web application
+
 
