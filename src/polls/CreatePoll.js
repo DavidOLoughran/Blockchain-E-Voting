@@ -312,7 +312,7 @@ export default function CardWithIllustration() {
                     flex={'1 0 auto'}
                     _hover={{ bg: 'blue.500' }}
                     _focus={{ bg: 'blue.500' }}>
-                    Create Election
+                    Create Poll
             </Button>}
                 <Text>{candidates}</Text>
 

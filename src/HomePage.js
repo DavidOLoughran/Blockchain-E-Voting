@@ -73,7 +73,7 @@ export default function CallToActionWithIllustration() {
                     Blockchain E-Voting is a direct to consumer online voting system built on blockchain technology to ensure tamper proof elections and polls
           </Text>
                 <Text color={'gray.500'} maxW={'3xl'}>
-                    Please Install metamask to continue using the application. Metamask enables your browser to interact witht he blockchain and is used as 2FA for accessing your account
+                    Please Install metamask to continue using the application. Metamask enables your browser to interact with the blockchain and is used as 2FA for accessing your account
           </Text>
                 <Stack spacing={6} direction={'row'}>
                     <Link href="/login">

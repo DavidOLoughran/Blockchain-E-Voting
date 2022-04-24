@@ -32,6 +32,7 @@ const GetPollCandidate = ({ data, id, elecName }) => {
         candidate.name = data[0][i]
         candidate.voteCount = parseInt(data[1][i]._hex)
         candidate.info = data[2][i]
+        candidate.image = data[3][i]
         candidate.candID = i;
         console.log(candidate)
         candidates.push(candidate)
